@@ -39,8 +39,8 @@ public class DevOpsDbInitialize {
 		sqlFiles.add(new File(WORKSPACE + "\\euler-iam\\euler-iam-service\\sql\\1-iam-data.sql"));
 		
 		// mkt
-		sqlFiles.add(new File(WORKSPACE + "\\euler-mkt\\euler-mkt-service\\sql\\0-mkt-ddl.sql"));
-		sqlFiles.add(new File(WORKSPACE + "\\euler-mkt\\euler-mkt-service\\sql\\1-mkt-data.sql"));
+		sqlFiles.add(new File(WORKSPACE + "\\euler-mkt\\euler-mkt-service\\sql\\00-mkt-ddl.sql"));
+		sqlFiles.add(new File(WORKSPACE + "\\euler-mkt\\euler-mkt-service\\sql\\01-mkt-data.sql"));
 		
 		// pm
 		sqlFiles.add(new File(WORKSPACE + "\\euler-pm\\euler-pm-service\\sql\\00-pm-ddl.sql"));
