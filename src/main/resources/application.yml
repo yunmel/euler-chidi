@@ -1,0 +1,25 @@
+spring.profiles.include: msf
+
+server:
+    port: 8080
+
+jdbc:    
+    driver: "com.mysql.jdbc.Driver"
+    url: "jdbc:mysql://10.15.15.99:3306/euler?autoReconnect=true&characterEncoding=UTF-8"
+    user: "euler"
+    password: "euler"
+    maxPoolSize: 20
+    
+application:
+    name: chidi
+    
+srd:
+  group: euler_group
+  regProtocol: etcd
+  addresses:
+  - 10.15.15.119:12379
+          
+token:
+  validate:
+    remote: false
+    excludeUrl: "/"
