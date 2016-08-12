@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
  * @author ZhongWen Li (mailto:lizw@primeton.com)
  *
  */
-@Path("/chidi")
+@Path(ApiPrefix.PREFIX + "/ping")
 public interface PingApi {
 
 	/**
@@ -21,7 +21,6 @@ public interface PingApi {
 	 * 
 	 * @return pong
 	 */
-	@Path("/ping")
 	@GET
 	@Produces({ MediaType.TEXT_PLAIN })
 	String ping();
