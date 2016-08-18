@@ -4,12 +4,15 @@
  */
 package com.primeton.euler.chidi.service.api.impl;
 
+import org.gocom.euler.specs.portal.capability.api.ProductInstanceApi;
+import org.gocom.euler.specs.portal.capability.api.StandardProductApi;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.primeton.euler.chidi.service.api.MarketProductApi;
 import com.primeton.euler.chidi.service.model.ProductInstance;
+import com.primeton.euler.msf.api.MSFApi;
 import com.primeton.euler.specs.devops.exception.CapabilityException;
 
 /**
@@ -19,6 +22,14 @@ import com.primeton.euler.specs.devops.exception.CapabilityException;
 @Service
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 public class MarketProductApiImpl implements MarketProductApi {
+	
+	// 市场产品发布（创建标准/自定义产品，查询产品）
+	@MSFApi
+	private StandardProductApi standardProductApi;
+	
+	// 市场产品部署 （创建产品实例，查询产品实例）
+	@MSFApi
+	private ProductInstanceApi productInstanceApi;
 
 	/* (non-Javadoc)
 	 * @see com.primeton.euler.chidi.service.api.MarketProductApi#createProductInstance(com.primeton.euler.chidi.service.model.ProductInstance)

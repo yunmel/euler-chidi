@@ -15,6 +15,7 @@ import java.beans.PropertyVetoException;
 
 import javax.sql.DataSource;
 
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,6 +72,14 @@ public class DataBaseEnv {
     public DataSourceTransactionManager dataSourceTransactionManager() throws PropertyVetoException {
         return new DataSourceTransactionManager(dataSource);
     }
+
+    @Bean
+    public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        return sessionFactory;
+    }
+    
 	/*
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
