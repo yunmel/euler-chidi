@@ -11,11 +11,11 @@ drop table if exists PRODUCT_SCRIPT;
 /*==============================================================*/
 create table PRODUCT_SCRIPT
 (
-   SCRIPT_ID            varchar(64) not null comment '½Å±¾ID',
-   PRODUCT_ID           varchar(64) not null comment '²úÆ·ID',
-   PRODUCT_SCRIPT       text not null comment '½Å±¾ÄÚÈİ',
+   SCRIPT_ID            varchar(64) not null comment 'è„šæœ¬ID',
+   PRODUCT_ID           varchar(64) not null comment 'äº§å“ID',
+   PRODUCT_SCRIPT       text not null comment 'è„šæœ¬å†…å®¹',
    primary key (SCRIPT_ID)
 );
 
-alter table PRODUCT_SCRIPT comment '²úÆ·½Å±¾±í';
+alter table PRODUCT_SCRIPT comment 'äº§å“è„šæœ¬è¡¨';
 
