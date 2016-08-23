@@ -18,7 +18,7 @@ public class DevOpsDbInitialize {
 	
 	private static final String SCRIPT_PATH = DevOpsDbInitialize.class.getResource("/").getPath();
 	
-	private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/euler_chidi?autoReconnect=true&characterEncoding=UTF-8";
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/euler?autoReconnect=true&characterEncoding=UTF-8";
 	private static final String JDBC_USER = "root";
 	private static final String JDBC_PASS = "root";
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";

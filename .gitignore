@@ -110,4 +110,4 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 logs/
-src/resources/db_script/
+src/main/resources/db_script/
