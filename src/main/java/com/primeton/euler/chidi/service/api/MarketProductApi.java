@@ -9,7 +9,9 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.gocom.euler.specs.portal.model.ProductInstanceVO;
@@ -20,20 +22,20 @@ import com.primeton.euler.specs.devops.exception.CapabilityException;
  * @author ZhongWen Li (mailto:lizw@primeton.com)
  *
  */
-@Path(ApiPrefix.PREFIX + "/market/products")
+@Path(ApiPrefix.PREFIX + "/market/productInstances")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface MarketProductApi {
 
 	@POST
-	String createProductInstance(ProductInstanceVO instance, String tenantCode) throws CapabilityException;
+	String createProductInstance(@QueryParam("productId") String productId,  @QueryParam("tenantCode") String tenantCode) throws CapabilityException;
 	
 	@DELETE
-	@Path("/{id}")
-	void destroyProductInstance(String instanceId, String tenantCode) throws CapabilityException;
+	@Path("/{instanceId}")
+	void destroyProductInstance(@PathParam("instanceId") String instanceId, @QueryParam("tenantCode") String tenantCode) throws CapabilityException;
 	
 	@GET
-	@Path("/{id}")
-	ProductInstanceVO viewProductInstance(String instanceId, String tenantCode) throws CapabilityException;
+	@Path("/{instanceId}")
+	ProductInstanceVO viewProductInstance(@PathParam("instanceId") String instanceId, @QueryParam("tenantCode") String tenantCode) throws CapabilityException;
 	
 }

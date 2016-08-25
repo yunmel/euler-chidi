@@ -3,8 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <title>新建产品实例</title>
+<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
-	<p>新建产品实例</p>
+	<script>
+		//获得参数的方法
+		var request = {
+			QueryString : function(val) {
+				var uri = window.location.search;
+				var re = new RegExp("" + val + "=([^&?]*)", "ig");
+				return ((uri.match(re)) ? (uri.match(re)[0]
+						.substr(val.length + 1)) : null);
+			}
+		}
+
+		var params = request.QueryString("params");
+		alert("params：" + params);
+		var paramArray = params.split(",");
+		
+
+		var accessToken = paramArray[0];
+		var tenantCode = paramArray[1];
+		var productId = paramArray[2];
+		alert(accessToken + " " + tenantCode + " " + productId)
+
+		/* $.ajax({
+			url : "/chidi/market/productInstances",
+			type : "post",
+			beforeSend : function(request) {
+				request.setRequestHeader("x-cbc-accessToken", accessToken);
+				request.setRequestHeader("x-cbc-tenantCode", tenantCode);
+			},
+			data : {
+				productId : productId,
+				tenantCode : tenantCode
+			}
+			success : function(text) {
+				alert(productId + ", " + text);
+			},
+			error : function(xhr) {
+				alert("错误提示： " + xhr.status + " " + xhr.statusText);
+			}
+		}); */
+	</script>
+	<p  style="text-align:center">正在新建产品实例，请稍后……</p>
+
 </body>
 </html>

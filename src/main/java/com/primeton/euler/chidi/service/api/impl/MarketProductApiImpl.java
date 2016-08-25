@@ -15,9 +15,7 @@ import org.gocom.euler.specs.portal.exception.PortalCapabilityException;
 import org.gocom.euler.specs.portal.model.InstanceResourceVO;
 import org.gocom.euler.specs.portal.model.ProductInstanceVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSON;
 import com.primeton.euler.chidi.service.api.MarketProductApi;
@@ -35,7 +33,7 @@ import com.primeton.euler.specs.devops.exception.CapabilityException;
  *
  */
 @Service
-@Scope(WebApplicationContext.SCOPE_REQUEST)
+//@Scope(WebApplicationContext.SCOPE_REQUEST)
 public class MarketProductApiImpl implements MarketProductApi {
 	
 	// 市场产品发布（创建标准/自定义产品，查询产品）
@@ -53,7 +51,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 	private CustomProductInstInfoDao instInfoDao;
 
 	@Override
-	public String createProductInstance(ProductInstanceVO instance, String tenantCode) throws CapabilityException {
+	public String createProductInstance(String productId, String tenantCode) throws CapabilityException {
 		
 		// 获取产品信息
 		
@@ -75,7 +73,6 @@ public class MarketProductApiImpl implements MarketProductApi {
 		
 		// 获取部署结果
 		
-		String customProductId = instance.getStandardProductId();
 		
 		// 部署数据库实例
 		MySQLProductInstance mysqInfo = MySQLProductInstance.getDefaultMySQLInstance(); // 默认从文件读取
@@ -103,11 +100,12 @@ public class MarketProductApiImpl implements MarketProductApi {
 
 		// 创建数据库，初始化数据库
 		DbUtils.createMySQLDataBase(DbUtils.generateUrl(netUrl, ""), userName, password, dbName);
-		ProductScript script = scriptDao.queryByProductId(customProductId);
+		ProductScript script = scriptDao.queryByProductId(productId);
 		String scriptContent = script.getScriptContent();
 		DbUtils.executeMySQLScript(DbUtils.generateUrl(netUrl, dbName), userName, password, scriptContent);
 
-		// TODO 自定义产品配置注入
+		// 自定义产品配置注入, db url, userName, password
+		ProductInstanceVO instance = productInstanceApi.queryProductInstanceById(tenantCode, productId);
 		
 		// 部署自定义产品实例
 		ProductInstanceVO customProductInstance = createCustomProductInstance(instance, tenantCode);

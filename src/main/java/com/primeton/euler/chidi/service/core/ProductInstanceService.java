@@ -11,6 +11,7 @@
 
 package com.primeton.euler.chidi.service.core;
 
+@Deprecated
 public class ProductInstanceService {
 
 }
