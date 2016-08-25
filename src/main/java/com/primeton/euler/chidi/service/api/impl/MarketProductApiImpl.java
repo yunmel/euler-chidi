@@ -79,7 +79,6 @@ public class MarketProductApiImpl implements MarketProductApi {
 		
 		// 部署数据库实例
 		MySQLProductInstance mysqInfo = MySQLProductInstance.getDefaultMySQLInstance(); // 默认从文件读取
-		mysqInfo.setTenantCode(tenantCode);
 		ProductInstanceVO mysqlInstance = createMySQLProductInstance(mysqInfo, tenantCode);
 		
 		// 
@@ -99,7 +98,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 
 		String userName = "root";
 		String password = mysqInfo.getRootPassword();
-		String dbName = instance.getProductCode();
+		String dbName = "custom_db";
 		String netUrl = mysqlResource.getNetUrl();
 
 		// 创建数据库，初始化数据库
@@ -144,10 +143,11 @@ public class MarketProductApiImpl implements MarketProductApi {
 		return productInstance;
 	}
 	
-	private ProductInstanceVO createMySQLProductInstance(ProductInstanceVO instance, String tenantCode) {
+	private ProductInstanceVO createMySQLProductInstance(MySQLProductInstance mysqInfo, String tenantCode) {
 		ProductInstanceVO mysqlInstance = null;
 		try {
-			mysqlInstance = productInstanceApi.createProductInstance(instance, tenantCode);
+			mysqInfo.setTenantCode(tenantCode);
+			mysqlInstance = productInstanceApi.createProductInstance(mysqInfo, tenantCode);
 			return mysqlInstance;
 		} catch (PortalCapabilityException e) {
 			// TODO Auto-generated catch block

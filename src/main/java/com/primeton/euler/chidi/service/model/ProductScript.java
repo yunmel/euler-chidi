@@ -53,4 +53,11 @@ public class ProductScript {
 	public void setScriptContent(String scriptContent) {
 		this.scriptContent = scriptContent;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductScript [scriptId=" + scriptId + ", productId=" + productId + ", scriptContent=" + scriptContent
+				+ "]";
+	}
+	
 }

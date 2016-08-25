@@ -20,27 +20,27 @@
 		<include refid="Base_Column_List" />
 		,
 		<include refid="Blob_Column_List" />
-		from product_script
+		from chidi_product_script
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</select>
 	<select id="queryByProductId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />,
 		<include refid="Blob_Column_List" />
-		from product_script
+		from chidi_product_script
 		where PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteById" parameterType="java.lang.String">
-		delete from product_script
+		delete from chidi_product_script
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="com.primeton.euler.chidi.service.model.ProductScript">
-		insert into product_script (SCRIPT_ID, PRODUCT_ID, SCRIPT_CONTENT)
+		insert into chidi_product_script (SCRIPT_ID, PRODUCT_ID, SCRIPT_CONTENT)
 		values (#{scriptId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
 		#{scriptContent,jdbcType=LONGVARCHAR})
 	</insert>
 	<update id="update" parameterType="com.primeton.euler.chidi.service.model.ProductScript">
-		update product_script
+		update chidi_product_script
 		set PRODUCT_ID = #{productId,jdbcType=VARCHAR}, SCRIPT_CONTENT = #{scriptContent,jdbcType=LONGVARCHAR}
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</update>
