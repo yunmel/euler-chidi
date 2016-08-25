@@ -1,0 +1,378 @@
+{
+  "compSpecs": [
+    {
+      "buildNumber": 0,
+      "componentCode": "percona_xtradb_cluster:5.6",
+      "componentVersion": "5.6",
+      "orderNumber": 0,
+      "srmSpecCode": "k8s.euler.rds-pxc-cluster",
+      "srmSpecName": "RDS主节点"
+    },
+    {
+      "buildNumber": 0,
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "orderNumber": 1,
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "buildNumber": 0,
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "orderNumber": 2,
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "buildNumber": 0,
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "orderNumber": 3,
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    }
+  ],
+  "envCode": "euler-market",
+  "offerId": "1",
+  "productCode": "percona_xtradb_cluster:5.6",
+  "productInstanceAttrs": [
+    {
+      "attrId": "15ac503c-7ca7-4807-82dc-7ef61be234cc",
+      "attrKey": "image-pull-policy",
+      "attrValue": "IfNotPresent",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "18d78487-046a-49ef-9754-dddfacb4fc48",
+      "attrKey": "cpu-limit",
+      "attrValue": "500",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "252ea7dd-351a-47e1-84cd-2c177ebc4caf",
+      "attrKey": "mem-limit",
+      "attrValue": "1024",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "4a53dc5f-d882-44a3-a0ff-bed7b8e9215c",
+      "attrKey": "wsrep_sst_password",
+      "attrValue": "sst",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "4c0846eb-10d3-4cb7-b291-8b1adabfbf48",
+      "attrKey": "termination-grace-period",
+      "attrValue": "5",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "850ebb2f-5f22-4352-9f72-7a360db567f3",
+      "attrKey": "cpu-request",
+      "attrValue": "250",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "99469f37-55d7-48f6-81d0-c1a88907da33",
+      "attrKey": "mysql_password",
+      "attrValue": "mysql",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "e7045d87-984d-4c38-b5d4-c9d2176315b3",
+      "attrKey": "wsrep_sst_user",
+      "attrValue": "sst",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "ea412d8d-9f63-4e2b-b919-d2a5fe743294",
+      "attrKey": "mysql_user",
+      "attrValue": "mysql",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "ee638215-0878-4e38-8419-d029c95064dc",
+      "attrKey": "mem-request",
+      "attrValue": "1024",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "cf3ca54d-088c-4b5e-839d-9cf2bc18b7d5",
+      "attrKey": "mysql_root_password",
+      "attrValue": "c_krit",
+      "componentCode": "percona_xtradb_node_1:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "0d5d09a0-88de-4111-8f0a-04f7da7b43d0",
+      "attrKey": "cpu-limit",
+      "attrValue": "500",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "48a66608-e79b-4452-bd53-ed0b7531fe23",
+      "attrKey": "image-pull-policy",
+      "attrValue": "IfNotPresent",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "48ca01cc-e54f-4e39-b000-c4f159fabd53",
+      "attrKey": "mysql_password",
+      "attrValue": "mysql",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "51fa8ed4-9854-41ba-b289-d2527a871dd3",
+      "attrKey": "wsrep_sst_user",
+      "attrValue": "sst",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "66d7c273-1c20-4e6e-8f08-c28e7a4aa657",
+      "attrKey": "mysql_root_password",
+      "attrValue": "c_krit",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "84f589f4-fa8a-40b3-a53a-c472cd32dd75",
+      "attrKey": "mem-limit",
+      "attrValue": "1024",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "86a714da-53df-4b09-97cd-335f8614ea51",
+      "attrKey": "mysql_user",
+      "attrValue": "mysql",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "933b0683-1d68-461a-bcb1-ecd702656d1d",
+      "attrKey": "mem-request",
+      "attrValue": "1024",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "c9fe01d5-e347-4c30-b176-eed9dd9acc93",
+      "attrKey": "cpu-request",
+      "attrValue": "250",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "d87e3735-e560-43b1-90c5-1f557ae272e6",
+      "attrKey": "termination-grace-period",
+      "attrValue": "5",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "f30c3d48-982b-4128-a05e-e6adf8abb176",
+      "attrKey": "wsrep_sst_password",
+      "attrValue": "sst",
+      "componentCode": "percona_xtradb_node_2:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "158148ce-3056-451f-99b2-e83a177cc456",
+      "attrKey": "mysql_user",
+      "attrValue": "mysql",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "53a75c24-9162-4872-9610-dcf60bb61227",
+      "attrKey": "mem-limit",
+      "attrValue": "1024",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "79c98b5d-62af-41c4-a181-5ac54f66083c",
+      "attrKey": "mysql_root_password",
+      "attrValue": "c_krit",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "885b9607-7ca7-4e41-8e0f-c3df503c85e9",
+      "attrKey": "image-pull-policy",
+      "attrValue": "IfNotPresent",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "90f22dd9-e617-4a84-875a-fb920450d73b",
+      "attrKey": "mysql_password",
+      "attrValue": "mysql",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "a51de87b-2f39-4622-b8a8-b76fff7684cc",
+      "attrKey": "wsrep_sst_user",
+      "attrValue": "sst",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "b3b7c009-ce9c-4181-84f1-55187c33620d",
+      "attrKey": "mem-request",
+      "attrValue": "1024",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "c57b48ef-733f-48c5-bd65-eb284a50b79a",
+      "attrKey": "termination-grace-period",
+      "attrValue": "5",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "d11c84f5-6dee-46be-8144-47ffa390dbb2",
+      "attrKey": "cpu-request",
+      "attrValue": "250",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "d175d37b-fcdd-41d3-9dba-31f12085d52e",
+      "attrKey": "cpu-limit",
+      "attrValue": "500",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    },
+    {
+      "attrId": "e5b7c7c0-6138-406f-8568-afa53101c939",
+      "attrKey": "wsrep_sst_password",
+      "attrValue": "sst",
+      "componentCode": "percona_xtradb_node_3:5.6",
+      "componentVersion": "5.6",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.rds-pxc-node",
+      "srmSpecName": "RDS从节点规格"
+    }
+  ],
+  "productSpecId": "402a57c0-f078-4c3d-ba43-feff830963fc",
+  "productVersion": "5.6",
+  "providerCode": "euler",
+  "spmVersion": "5.6",
+  "standardProductId": "1ba4ee03-a09d-4b0e-9332-1d4b8f78071e",
+  "tenantCode": "euler",
+  "usedCount": 0
+}

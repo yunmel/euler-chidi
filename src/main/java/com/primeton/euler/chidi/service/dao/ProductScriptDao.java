@@ -12,14 +12,20 @@ package com.primeton.euler.chidi.service.dao;
 
 import com.primeton.euler.chidi.service.model.ProductScript;
 
+/**
+ * 
+ * ProductScriptDao
+ *
+ * @author tianxh (mailto:tianxh@primeton.com)
+ */
 public interface ProductScriptDao {
 	ProductScript queryById(String id);
 
-	void insert(ProductScript scripe);
+	ProductScript queryByProductId(String id);
 
-	void update(ProductScript scripe);
+	void insert(ProductScript script);
+
+	void update(ProductScript script);
 
 	void deleteById(String id);
-
-	void logicDeleteById(String id);
 }

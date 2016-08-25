@@ -15,7 +15,7 @@
 	<sql id="Blob_Column_List">
 		SCRIPT_CONTENT
 	</sql>
-	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+	<select id="queryById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
 		,
@@ -23,7 +23,14 @@
 		from product_script
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	<select id="queryByProductId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />,
+		<include refid="Blob_Column_List" />
+		from product_script
+		where PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteById" parameterType="java.lang.String">
 		delete from product_script
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</delete>
@@ -32,7 +39,7 @@
 		values (#{scriptId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
 		#{scriptContent,jdbcType=LONGVARCHAR})
 	</insert>
-	<update id="updateByPrimaryKey" parameterType="com.primeton.euler.chidi.service.model.ProductScript">
+	<update id="update" parameterType="com.primeton.euler.chidi.service.model.ProductScript">
 		update product_script
 		set PRODUCT_ID = #{productId,jdbcType=VARCHAR}, SCRIPT_CONTENT = #{scriptContent,jdbcType=LONGVARCHAR}
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}

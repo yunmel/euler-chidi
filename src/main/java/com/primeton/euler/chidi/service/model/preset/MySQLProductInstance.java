@@ -10,52 +10,41 @@
 
 package com.primeton.euler.chidi.service.model.preset;
 
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Scanner;
 
-import com.primeton.euler.chidi.service.model.CompSpec;
-import com.primeton.euler.chidi.service.model.ProductInstance;
-import com.primeton.euler.chidi.service.model.ProductInstanceAttr;
+import org.gocom.euler.specs.portal.model.ProductInstanceAttrVO;
+import org.gocom.euler.specs.portal.model.ProductInstanceVO;
 
-public class MySQLProductInstance extends ProductInstance {
+import com.alibaba.fastjson.JSON;
+
+public class MySQLProductInstance extends ProductInstanceVO {
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public MySQLProductInstance() {
-		this.setStandardProductId("1qce7fd5-55e3-4816-ae71-ff44fca290cd");
-		this.setProductSpecId("024ac216-6a19-45f5-9f51-514f2475a541");
-		this.setUrl("http://baidu.com");
-		this.setTenantCode("default");
-		this.setOfferId("1");
-		this.setProviderCode("default");
-		this.setProductCode("default");
 		
-		List<CompSpec> compSpecs = new ArrayList<CompSpec>();
-		CompSpec compSpec = new CompSpec();
-		compSpec.setComponentCode("mysql");
-		compSpec.setComponentVersion("5.6");
-		compSpec.setBuildNumber(1000);
-		compSpec.setOrderNumber(1);
-		compSpecs.add(compSpec);
-		this.setCompSpecs(compSpecs);
-		
-		List<ProductInstanceAttr> instanceAttr = new ArrayList<ProductInstanceAttr>();
-		ProductInstanceAttr attr = new ProductInstanceAttr();
-		attr.setSrmSpecCode("service");
-		attr.setSrmSpecName("默认规格");
-		attr.setComponentCode("mysql");
-		attr.setComponentVersion("5.6");
-		attr.setAttrId("1");
-		attr.setSource("0");
-		attr.setAttrKey("sss");
-		attr.setAttrValue("xxx");
-		instanceAttr.add(attr);
-		this.setProductInstanceAttrs(instanceAttr);
 	}
 	
+	public static MySQLProductInstance getDefaultMySQLInstance() {
+		InputStream is = MySQLProductInstance.class.getResourceAsStream("MySQLProductInstance.json");
+		String productInstance = new Scanner(is, "UTF-8").useDelimiter("\\a").next();
+		MySQLProductInstance instance = JSON.parseObject(productInstance, MySQLProductInstance.class);
+		return instance;
+	}
 	
+	public String getRootPassword() {
+		List<ProductInstanceAttrVO> attrs =  this.getProductInstanceAttrs();
+		for (ProductInstanceAttrVO attr : attrs) {
+			if (attr.getComponentCode().equals("percona_xtradb_node_1:5.6") && attr.getAttrKey().equals("mysql_password")) {
+				return attr.getAttrValue();
+			}
+		}
+		return "";
+	}
 	
 	@Override
 	public String toString() {
@@ -73,9 +62,10 @@ public class MySQLProductInstance extends ProductInstance {
 				+ getStatusName() + ", productInstanceAttrs=" + getProductInstanceAttrs() + ", compSpecs="
 				+ getCompSpecs() + ", productInstanceResources=" + getProductInstanceResources() + "]";
 	}
-
-	public static void main(String[] args) {
-		MySQLProductInstance instance = new MySQLProductInstance();
-		System.out.println(instance);
-	}
+	
+//	public static void main(String[] args) {
+//		MySQLProductInstance instance = MySQLProductInstance.getDefaultMySQLInstance();
+//		System.out.println(">>>> root password: " + instance.getRootPassword());
+//	}
+	
 }

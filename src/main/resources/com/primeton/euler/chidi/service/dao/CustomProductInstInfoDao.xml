@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.primeton.euler.chidi.service.dao.CustomProductInstInfoDao">
+	<resultMap id="BaseResultMap" type="com.primeton.euler.chidi.service.model.CustomProductInstInfo">
+		<id column="INSTCNCE_ID" property="instcnceId" jdbcType="VARCHAR" />
+		<result column="DEPENDENT_INSTANCE_INFO" property="dependentInstanceInfo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		INSTCNCE_ID, DEPENDENT_INSTANCE_INFO
+	</sql>
+	<select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from chidi_product_instance
+		where INSTCNCE_ID = #{instcnceId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from chidi_product_instance
+		where INSTCNCE_ID = #{instcnceId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.primeton.euler.chidi.service.model.CustomProductInstInfo">
+		insert into chidi_product_instance (INSTCNCE_ID,
+		DEPENDENT_INSTANCE_INFO)
+		values 
+		(#{instcnceId,jdbcType=VARCHAR},
+		#{dependentInstanceInfo,jdbcType=VARCHAR})
+	</insert>
+	<update id="update" parameterType="com.primeton.euler.chidi.service.model.CustomProductInstInfo">
+		update chidi_product_instance
+		set DEPENDENT_INSTANCE_INFO = #{dependentInstanceInfo,jdbcType=VARCHAR}
+		where INSTCNCE_ID = #{instcnceId,jdbcType=VARCHAR}
+	</update>
+</mapper>

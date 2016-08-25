@@ -10,8 +10,15 @@
 
 package com.primeton.euler.chidi.service.model.preset;
 
-import com.primeton.euler.chidi.service.model.ProductInstance;
+import org.gocom.euler.specs.portal.model.ProductInstanceVO;
 
-public class CustomProductInstance extends ProductInstance {
-	
+public class CustomProductInstance extends ProductInstanceVO {
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public CustomProductInstance() {
+		
+	}
 }

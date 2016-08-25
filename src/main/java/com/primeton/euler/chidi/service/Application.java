@@ -12,8 +12,10 @@ package com.primeton.euler.chidi.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan("com.primeton.euler.chidi")
 public class Application {
 
 	public static void main(String[] args) {

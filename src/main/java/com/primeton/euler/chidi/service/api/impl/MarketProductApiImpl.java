@@ -4,14 +4,29 @@
  */
 package com.primeton.euler.chidi.service.api.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.gocom.euler.specs.portal.capability.api.ProductInstanceApi;
 import org.gocom.euler.specs.portal.capability.api.StandardProductApi;
+import org.gocom.euler.specs.portal.exception.PortalCapabilityException;
+import org.gocom.euler.specs.portal.model.InstanceResourceVO;
+import org.gocom.euler.specs.portal.model.ProductInstanceVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.alibaba.fastjson.JSON;
 import com.primeton.euler.chidi.service.api.MarketProductApi;
-import com.primeton.euler.chidi.service.model.ProductInstance;
+import com.primeton.euler.chidi.service.dao.CustomProductInstInfoDao;
+import com.primeton.euler.chidi.service.dao.ProductScriptDao;
+import com.primeton.euler.chidi.service.model.CustomProductInstInfo;
+import com.primeton.euler.chidi.service.model.ProductScript;
+import com.primeton.euler.chidi.service.model.preset.MySQLProductInstance;
+import com.primeton.euler.chidi.service.util.DbUtils;
 import com.primeton.euler.msf.api.MSFApi;
 import com.primeton.euler.specs.devops.exception.CapabilityException;
 
@@ -30,12 +45,15 @@ public class MarketProductApiImpl implements MarketProductApi {
 	// 市场产品部署 （创建产品实例，查询产品实例）
 	@MSFApi
 	private ProductInstanceApi productInstanceApi;
+	
+	@Autowired
+	private ProductScriptDao scriptDao;
+	
+	@Autowired
+	private CustomProductInstInfoDao instInfoDao;
 
-	/* (non-Javadoc)
-	 * @see com.primeton.euler.chidi.service.api.MarketProductApi#createProductInstance(com.primeton.euler.chidi.service.model.ProductInstance)
-	 */
 	@Override
-	public String createProductInstance(ProductInstance instance) throws CapabilityException {
+	public String createProductInstance(ProductInstanceVO instance, String tenantCode) throws CapabilityException {
 		
 		// 获取产品信息
 		
@@ -57,14 +75,97 @@ public class MarketProductApiImpl implements MarketProductApi {
 		
 		// 获取部署结果
 		
+		String customProductId = instance.getStandardProductId();
+		
+		// 部署数据库实例
+		MySQLProductInstance mysqInfo = MySQLProductInstance.getDefaultMySQLInstance(); // 默认从文件读取
+		mysqInfo.setTenantCode(tenantCode);
+		ProductInstanceVO mysqlInstance = createMySQLProductInstance(mysqInfo, tenantCode);
+		
+		// 
+		for (;;) {
+			ProductInstanceVO createdMysqlInstance = viewProductInstance(mysqlInstance.getId(), tenantCode);
+			/**
+			 * 1 正在创建 2 创建失败 3 正在运行 4 停止 5 删除失败
+			 */
+			if (createdMysqlInstance.getStatusId().equals("3")) {
+				mysqlInstance = createdMysqlInstance;
+				break;
+			}
+		}
+		
+		List<InstanceResourceVO>  mysqlInstanceResources = mysqlInstance.getProductInstanceResources();
+		InstanceResourceVO mysqlResource = mysqlInstanceResources.get(0);
+
+		String userName = "root";
+		String password = mysqInfo.getRootPassword();
+		String dbName = instance.getProductCode();
+		String netUrl = mysqlResource.getNetUrl();
+
+		// 创建数据库，初始化数据库
+		DbUtils.createMySQLDataBase(DbUtils.generateUrl(netUrl, ""), userName, password, dbName);
+		ProductScript script = scriptDao.queryByProductId(customProductId);
+		String scriptContent = script.getScriptContent();
+		DbUtils.executeMySQLScript(DbUtils.generateUrl(netUrl, dbName), userName, password, scriptContent);
+
+		// TODO 自定义产品配置注入
+		
+		// 部署自定义产品实例
+		ProductInstanceVO customProductInstance = createCustomProductInstance(instance, tenantCode);
+		
+		// 记录产品和数据库关联信息
+		CustomProductInstInfo info = new CustomProductInstInfo();
+		info.setInstcnceId(customProductInstance.getId());
+		Map<String, String> dependentInstInfo = new HashMap<String, String>();
+		dependentInstInfo.put("instanceId", mysqlInstance.getId());
+		dependentInstInfo.put("productCode", mysqlInstance.getProductCode());
+		info.setDependentInstanceInfo(JSON.toJSONString(dependentInstInfo));
+		instInfoDao.insert(info);
+		
+		return customProductInstance.getId();
+	}
+
+	@Override
+	public void destroyProductInstance(String instanceId, String tenantCode) throws CapabilityException {
+		CustomProductInstInfo instInfo = instInfoDao.queryById(instanceId);
+		String dependInfo = instInfo.getDependentInstanceInfo();
+		String dependInstId = ""; 
+		if (!StringUtils.isBlank(dependInfo)) {
+			JSON.parseObject(dependInfo, Map.class);
+			dependInstId = (String) JSON.parseObject(dependInfo, Map.class).get(instanceId);
+		}
+		productInstanceApi.deleteProductInstanceById(tenantCode, instanceId);
+		productInstanceApi.deleteProductInstanceById(tenantCode, dependInstId);
+	}
+
+	@Override
+	public ProductInstanceVO viewProductInstance(String instanceId, String tenantCode) throws CapabilityException {
+		ProductInstanceVO productInstance = productInstanceApi.queryProductInstanceById(tenantCode, instanceId);
+		return productInstance;
+	}
+	
+	private ProductInstanceVO createMySQLProductInstance(ProductInstanceVO instance, String tenantCode) {
+		ProductInstanceVO mysqlInstance = null;
+		try {
+			mysqlInstance = productInstanceApi.createProductInstance(instance, tenantCode);
+			return mysqlInstance;
+		} catch (PortalCapabilityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.primeton.euler.chidi.service.api.MarketProductApi#destroyProductInstance(java.lang.String)
-	 */
-	@Override
-	public void destroyProductInstance(String instanceId) throws CapabilityException {
+	
+	private ProductInstanceVO createCustomProductInstance(ProductInstanceVO instance, String tenantCode) {
+		ProductInstanceVO customInstance = null;
+		try {
+			customInstance = productInstanceApi.createProductInstance(instance, tenantCode);
+			return customInstance;
+		} catch (PortalCapabilityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
-
+	
 }

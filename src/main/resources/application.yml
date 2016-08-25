@@ -5,9 +5,9 @@ server:
 
 jdbc:    
     driver: "com.mysql.jdbc.Driver"
-    url: "jdbc:mysql://10.15.15.99:3306/euler_chidi?autoReconnect=true&characterEncoding=UTF-8"
-    user: "euler"
-    password: "euler"
+    url: "jdbc:mysql://localhost:3306/euler_chidi?autoReconnect=true&characterEncoding=UTF-8"
+    user: "root"
+    password: "root"
     maxPoolSize: 20
     
 application:
@@ -17,7 +17,7 @@ srd:
   group: euler_group
   regProtocol: etcd
   addresses:
-  - 10.15.15.119:12379
+  - 10.15.15.99:2379
           
 token:
   validate:
