@@ -12,8 +12,7 @@
 			QueryString : function(val) {
 				var uri = window.location.search;
 				var re = new RegExp("" + val + "=([^&?]*)", "ig");
-				return ((uri.match(re)) ? (uri.match(re)[0]
-						.substr(val.length + 1)) : null);
+				return ((uri.match(re)) ? (uri.match(re)[0].substr(val.length + 1)) : null);
 			}
 		}
 
@@ -24,10 +23,10 @@
 
 		var accessToken = paramArray[0];
 		var tenantCode = paramArray[1];
-		var productId = paramArray[2];
+		var standardProductId = paramArray[2];
 		alert(accessToken + " " + tenantCode + " " + productId)
 
-		/* $.ajax({
+		$.ajax({
 			url : "/chidi/market/productInstances",
 			type : "post",
 			beforeSend : function(request) {
@@ -44,9 +43,9 @@
 			error : function(xhr) {
 				alert("错误提示： " + xhr.status + " " + xhr.statusText);
 			}
-		}); */
+		});
 	</script>
-	<p  style="text-align:center">正在新建产品实例，请稍后……</p>
+	<p style="text-align:center">正在新建产品实例，请稍后……</p>
 
 </body>
 </html>

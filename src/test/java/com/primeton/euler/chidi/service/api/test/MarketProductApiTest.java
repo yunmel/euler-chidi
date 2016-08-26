@@ -28,10 +28,10 @@ import com.primeton.euler.specs.devops.exception.CapabilityException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
 @TestExecutionListeners({
+	WebContextTestExecutionListener.class,
     DirtiesContextBeforeModesTestExecutionListener.class,
     DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-    WebContextTestExecutionListener.class
+    DirtiesContextTestExecutionListener.class
 })
 public class MarketProductApiTest {
 	@Autowired
@@ -44,7 +44,7 @@ public class MarketProductApiTest {
 
 	@Test
 	public void testViewProductInstance() throws CapabilityException {
-		String instanceId = "43701f80-5a6e-4fd3-8bf2-9570a6324b3f";
+		String instanceId = "3c439f8b-5f4a-4dbf-ba7c-99dba409c087";
 		String tenantCode = "tenant-tianxh";
 		ProductInstanceVO instance = productApi.viewProductInstance(instanceId, tenantCode);
 		System.out.println(">>>> instance: " + instance);

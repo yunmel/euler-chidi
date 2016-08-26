@@ -28,7 +28,7 @@ import com.primeton.euler.specs.devops.exception.CapabilityException;
 public interface MarketProductApi {
 
 	@POST
-	String createProductInstance(@QueryParam("productId") String productId,  @QueryParam("tenantCode") String tenantCode) throws CapabilityException;
+	String createProductInstance(ProductInstanceVO instance) throws CapabilityException;
 	
 	@DELETE
 	@Path("/{instanceId}")

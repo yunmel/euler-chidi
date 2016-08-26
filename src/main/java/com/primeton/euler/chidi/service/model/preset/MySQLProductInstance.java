@@ -24,7 +24,7 @@ public class MySQLProductInstance extends ProductInstanceVO {
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	public MySQLProductInstance() {
 		
 	}
@@ -36,10 +36,11 @@ public class MySQLProductInstance extends ProductInstanceVO {
 		return instance;
 	}
 	
-	public String getRootPassword() {
-		List<ProductInstanceAttrVO> attrs =  this.getProductInstanceAttrs();
+	public static String getRootPassword() {
+		MySQLProductInstance instance = getDefaultMySQLInstance();
+		List<ProductInstanceAttrVO> attrs =  instance.getProductInstanceAttrs();
 		for (ProductInstanceAttrVO attr : attrs) {
-			if (attr.getComponentCode().equals("percona_xtradb_node_1:5.6") && attr.getAttrKey().equals("mysql_password")) {
+			if (attr.getComponentCode().equals("percona_xtradb_node_1:5.6") && attr.getAttrKey().equals("mysql_root_password")) {
 				return attr.getAttrValue();
 			}
 		}

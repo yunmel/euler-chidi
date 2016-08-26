@@ -13,11 +13,14 @@ import org.gocom.euler.specs.portal.capability.api.ProductInstanceApi;
 import org.gocom.euler.specs.portal.capability.api.StandardProductApi;
 import org.gocom.euler.specs.portal.exception.PortalCapabilityException;
 import org.gocom.euler.specs.portal.model.InstanceResourceVO;
+import org.gocom.euler.specs.portal.model.ProductInstanceAttrVO;
 import org.gocom.euler.specs.portal.model.ProductInstanceVO;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.primeton.euler.cbc.log.LoggerFactory;
 import com.primeton.euler.chidi.service.api.MarketProductApi;
 import com.primeton.euler.chidi.service.dao.CustomProductInstInfoDao;
 import com.primeton.euler.chidi.service.dao.ProductScriptDao;
@@ -35,6 +38,7 @@ import com.primeton.euler.specs.devops.exception.CapabilityException;
 @Service
 //@Scope(WebApplicationContext.SCOPE_REQUEST)
 public class MarketProductApiImpl implements MarketProductApi {
+	private static final Logger logger = LoggerFactory.getTraceLogger(MarketProductApiImpl.class);
 	
 	// 市场产品发布（创建标准/自定义产品，查询产品）
 	@MSFApi
@@ -51,28 +55,10 @@ public class MarketProductApiImpl implements MarketProductApi {
 	private CustomProductInstInfoDao instInfoDao;
 
 	@Override
-	public String createProductInstance(String productId, String tenantCode) throws CapabilityException {
-		
-		// 获取产品信息
-		
-		// 如果产品需要使用MySQL数据库
-		
-		// 获取依赖产品MySQL信息
-		
-		// 使用默认配置部署MySQL数据库
-		
-		// 获取部署结果——MySQL实例信息
-		
-		// 获取产品数据库脚本
-		
-		// 执行数据库初始化操作
-		
-		// 根据MySQL实例信息生成产品运行期配置数据（运行期配置注入）
-		
-		// 部署产品自身
-		
-		// 获取部署结果
-		
+	public String createProductInstance(ProductInstanceVO createInstance) throws CapabilityException {
+		String productId = createInstance.getStandardProductId();
+		String tenantCode = createInstance.getTenantCode();
+		logger.info(">>>> productId: " + productId + ", tenantCode: " + tenantCode);
 		
 		// 部署数据库实例
 		MySQLProductInstance mysqInfo = MySQLProductInstance.getDefaultMySQLInstance(); // 默认从文件读取
@@ -80,13 +66,20 @@ public class MarketProductApiImpl implements MarketProductApi {
 		
 		// 
 		for (;;) {
+			logger.info(">>>> query mysql instance [" + mysqlInstance.getId() + "] status");
 			ProductInstanceVO createdMysqlInstance = viewProductInstance(mysqlInstance.getId(), tenantCode);
 			/**
 			 * 1 正在创建 2 创建失败 3 正在运行 4 停止 5 删除失败
 			 */
 			if (createdMysqlInstance.getStatusId().equals("3")) {
 				mysqlInstance = createdMysqlInstance;
+				logger.info(">>>> mysql instance [" + mysqlInstance.getId() + "] is running");
 				break;
+			}
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		
@@ -94,18 +87,35 @@ public class MarketProductApiImpl implements MarketProductApi {
 		InstanceResourceVO mysqlResource = mysqlInstanceResources.get(0);
 
 		String userName = "root";
-		String password = mysqInfo.getRootPassword();
+		String password = MySQLProductInstance.getRootPassword();
 		String dbName = "custom_db";
-		String netUrl = mysqlResource.getNetUrl();
+		String publicUrl = mysqlResource.getNetUrl();
+		String dbUrl = mysqlResource.getPublicIp() + ":" + publicUrl.split(":")[1];
+		logger.info(">>>> userName: " + userName + ", password: " + password + ", dbName: " + dbName + ", dbUrl: " + dbUrl);
 
 		// 创建数据库，初始化数据库
-		DbUtils.createMySQLDataBase(DbUtils.generateUrl(netUrl, ""), userName, password, dbName);
+		DbUtils.createMySQLDataBase(DbUtils.generateUrl(dbUrl, ""), userName, password, dbName);
 		ProductScript script = scriptDao.queryByProductId(productId);
 		String scriptContent = script.getScriptContent();
-		DbUtils.executeMySQLScript(DbUtils.generateUrl(netUrl, dbName), userName, password, scriptContent);
+		DbUtils.executeMySQLScript(DbUtils.generateUrl(dbUrl, dbName), userName, password, scriptContent);
 
 		// 自定义产品配置注入, db url, userName, password
 		ProductInstanceVO instance = productInstanceApi.queryProductInstanceById(tenantCode, productId);
+		List<ProductInstanceAttrVO> attrs = instance.getProductInstanceAttrs();
+		for (ProductInstanceAttrVO attr : attrs) {
+			if (attr.getAttrKey().equals("db.user")) {
+				attr.setAttrValue(userName);
+			}
+			if (attr.getAttrKey().equals("db.password")) {
+				attr.setAttrValue(password);
+			}
+			if (attr.getAttrKey().equals("db.url")) {
+				attr.setAttrValue(dbUrl);
+			}
+			if (attr.getAttrKey().equals("home.title")) {
+				attr.setAttrValue("This is a demo...");
+			}
+		}
 		
 		// 部署自定义产品实例
 		ProductInstanceVO customProductInstance = createCustomProductInstance(instance, tenantCode);
@@ -118,7 +128,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 		dependentInstInfo.put("productCode", mysqlInstance.getProductCode());
 		info.setDependentInstanceInfo(JSON.toJSONString(dependentInstInfo));
 		instInfoDao.insert(info);
-		
+		logger.info(">>>> instanceId: " + customProductInstance.getId());
 		return customProductInstance.getId();
 	}
 

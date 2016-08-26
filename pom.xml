@@ -29,50 +29,50 @@
 
 	<dependencies>
 		<dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-msf-capability</artifactId>
-            <version>${msf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-portal-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-pm-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-spm-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-scm-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-bpr-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-ci-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-umc-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.primeton.euler</groupId>
-            <artifactId>euler-specs-vcs-capability</artifactId>
-            <version>${euler.version}</version>
-        </dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-msf-capability</artifactId>
+			<version>${msf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-portal-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-pm-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-spm-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-scm-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-bpr-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-ci-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-umc-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.primeton.euler</groupId>
+			<artifactId>euler-specs-vcs-capability</artifactId>
+			<version>${euler.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.primeton.euler</groupId>
 			<artifactId>euler-specs-util</artifactId>
@@ -83,22 +83,13 @@
 			<artifactId>euler-iam-token</artifactId>
 			<version>${msf.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <!-- 
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-         -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<!-- <dependency> <groupId>javax.ws.rs</groupId> <artifactId>javax.ws.rs-api</artifactId> 
+			<version>2.0.1</version> </dependency> <dependency> <groupId>javax.servlet</groupId> 
+			<artifactId>javax.servlet-api</artifactId> <version>3.1.0</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -134,18 +125,10 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${logback.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
-		</dependency>
- 		-->
+		<!-- <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-core</artifactId> 
+			<version>${logback.version}</version> </dependency> <dependency> <groupId>ch.qos.logback</groupId> 
+			<artifactId>logback-classic</artifactId> <version>${logback.version}</version> 
+			</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
