@@ -13,7 +13,8 @@ create table CHIDI_PRODUCT_SCRIPT
 (
    SCRIPT_ID            varchar(64) not null comment '脚本ID',
    PRODUCT_ID           varchar(64) not null comment '产品ID',
-   SCRIPT_CONTENT       longtext not null comment '脚本内容',
+   SCRIPT_PATH          varchar(1024) comment '脚本路径',
+   SCRIPT_NAME          varchar(1024) comment '脚本名称',
    primary key (SCRIPT_ID)
 );
 
@@ -33,5 +34,6 @@ create table CHIDI_PRODUCT_INSTANCE
 );
 
 alter table CHIDI_PRODUCT_INSTANCE comment '产品实例表';
+
 
 

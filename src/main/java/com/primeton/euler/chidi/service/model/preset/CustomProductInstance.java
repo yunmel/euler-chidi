@@ -10,7 +10,12 @@
 
 package com.primeton.euler.chidi.service.model.preset;
 
+import java.io.InputStream;
+import java.util.Scanner;
+
 import org.gocom.euler.specs.portal.model.ProductInstanceVO;
+
+import com.alibaba.fastjson.JSON;
 
 public class CustomProductInstance extends ProductInstanceVO {
 	/**
@@ -20,5 +25,17 @@ public class CustomProductInstance extends ProductInstanceVO {
 
 	public CustomProductInstance() {
 		
+	}
+	
+	public static CustomProductInstance getDefaultCustomProductInstance() {
+		InputStream is = CustomProductInstance.class.getResourceAsStream("CustomProductInstance.json");
+		String productInstance = new Scanner(is, "UTF-8").useDelimiter("\\a").next();
+		CustomProductInstance instance = JSON.parseObject(productInstance, CustomProductInstance.class);
+		return instance;
+	}
+	
+	public static void main(String[] args) {
+		CustomProductInstance instance = CustomProductInstance.getDefaultCustomProductInstance();
+		System.out.println(instance);
 	}
 }

@@ -4,13 +4,11 @@
  */
 package com.primeton.euler.chidi.service.util;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -115,15 +113,12 @@ public class DbUtils {
 		}
 	}
 	
-	public static void executeMySQLScript(String url, String userName, String password, String scriptContent) {
+	public static void executeMySQLScript(String url, String userName, String password, String scriptFilePath) {
 		try {
 			Connection conn = DbUtils.getConnection(MYSQL_DRIVER, url, userName, password);
-			InputStream in = new ByteArrayInputStream(scriptContent.getBytes("UTF-8"));  
-			DbUtils.executeSqlScript(conn, in);
+			File scriptFile = new File(scriptFilePath);
+			executeSqlScript(conn, scriptFile);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {

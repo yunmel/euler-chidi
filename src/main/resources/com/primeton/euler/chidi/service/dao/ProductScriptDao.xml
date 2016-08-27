@@ -2,31 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.primeton.euler.chidi.service.dao.ProductScriptDao">
 	<resultMap id="BaseResultMap" type="com.primeton.euler.chidi.service.model.ProductScript">
-		<id column="SCRIPT_ID" property="scriptId" jdbcType="VARCHAR" />
-		<result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
-	</resultMap>
-
-	<resultMap id="ResultMapWithBLOBs" type="com.primeton.euler.chidi.service.model.ProductScript" extends="BaseResultMap">
-		<result column="SCRIPT_CONTENT" property="scriptContent" jdbcType="LONGVARCHAR" />
+		<id column="SCRIPT_ID" jdbcType="VARCHAR" property="scriptId" />
+	    <result column="PRODUCT_ID" jdbcType="VARCHAR" property="productId" />
+	    <result column="SCRIPT_PATH" jdbcType="VARCHAR" property="scriptPath" />
+	    <result column="SCRIPT_NAME" jdbcType="VARCHAR" property="scriptName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		SCRIPT_ID, PRODUCT_ID
+		SCRIPT_ID, PRODUCT_ID, SCRIPT_PATH, SCRIPT_NAME
 	</sql>
-	<sql id="Blob_Column_List">
-		SCRIPT_CONTENT
-	</sql>
-	<select id="queryById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+	<select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
-		,
-		<include refid="Blob_Column_List" />
 		from chidi_product_script
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</select>
-	<select id="queryByProductId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+	<select id="queryByProductId" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
-		<include refid="Base_Column_List" />,
-		<include refid="Blob_Column_List" />
+		<include refid="Base_Column_List" />
 		from chidi_product_script
 		where PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 	</select>
@@ -35,13 +27,14 @@
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="com.primeton.euler.chidi.service.model.ProductScript">
-		insert into chidi_product_script (SCRIPT_ID, PRODUCT_ID, SCRIPT_CONTENT)
+		insert into chidi_product_script (SCRIPT_ID, PRODUCT_ID, SCRIPT_PATH, SCRIPT_NAME)
 		values (#{scriptId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
-		#{scriptContent,jdbcType=LONGVARCHAR})
+		#{scriptPath,jdbcType=VARCHAR}, #{scriptName,jdbcType=VARCHAR})
 	</insert>
 	<update id="update" parameterType="com.primeton.euler.chidi.service.model.ProductScript">
 		update chidi_product_script
-		set PRODUCT_ID = #{productId,jdbcType=VARCHAR}, SCRIPT_CONTENT = #{scriptContent,jdbcType=LONGVARCHAR}
+		set PRODUCT_ID = #{productId,jdbcType=VARCHAR}, SCRIPT_PATH = #{scriptPath,jdbcType=VARCHAR},
+		SCRIPT_NAME = #{scriptName,jdbcType=VARCHAR}
 		where SCRIPT_ID = #{scriptId,jdbcType=VARCHAR}
 	</update>
 </mapper>

@@ -12,23 +12,15 @@ package com.primeton.euler.chidi.service.model;
 
 /**
  * 
- * TODO 此处填写 class 信息
+ * 产品脚本信息表
  *
  * @author tianxh (mailto:tianxh@primeton.com)
  */
 public class ProductScript {
-	/**
-	 * 脚本id
-	 */
 	private String scriptId;
-	/**
-	 * 产品id
-	 */
 	private String productId;
-	/**
-	 * 脚本内容
-	 */
-	private String scriptContent;
+	private String scriptPath;
+	private String scriptName;
 
 	public String getScriptId() {
 		return scriptId;
@@ -46,18 +38,20 @@ public class ProductScript {
 		this.productId = productId;
 	}
 
-	public String getScriptContent() {
-		return scriptContent;
+	public String getScriptPath() {
+		return scriptPath;
 	}
 
-	public void setScriptContent(String scriptContent) {
-		this.scriptContent = scriptContent;
+	public void setScriptPath(String scriptPath) {
+		this.scriptPath = scriptPath;
 	}
 
-	@Override
-	public String toString() {
-		return "ProductScript [scriptId=" + scriptId + ", productId=" + productId + ", scriptContent=" + scriptContent
-				+ "]";
+	public String getScriptName() {
+		return scriptName;
 	}
-	
+
+	public void setScriptName(String scriptName) {
+		this.scriptName = scriptName;
+	}
+
 }

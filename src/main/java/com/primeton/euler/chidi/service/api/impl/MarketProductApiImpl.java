@@ -4,6 +4,7 @@
  */
 package com.primeton.euler.chidi.service.api.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.gocom.euler.specs.portal.capability.api.ProductInstanceApi;
 import org.gocom.euler.specs.portal.capability.api.StandardProductApi;
 import org.gocom.euler.specs.portal.exception.PortalCapabilityException;
+import org.gocom.euler.specs.portal.model.CompSpecVO;
 import org.gocom.euler.specs.portal.model.InstanceResourceVO;
 import org.gocom.euler.specs.portal.model.ProductInstanceAttrVO;
 import org.gocom.euler.specs.portal.model.ProductInstanceVO;
@@ -26,6 +28,7 @@ import com.primeton.euler.chidi.service.dao.CustomProductInstInfoDao;
 import com.primeton.euler.chidi.service.dao.ProductScriptDao;
 import com.primeton.euler.chidi.service.model.CustomProductInstInfo;
 import com.primeton.euler.chidi.service.model.ProductScript;
+import com.primeton.euler.chidi.service.model.preset.CustomProductInstance;
 import com.primeton.euler.chidi.service.model.preset.MySQLProductInstance;
 import com.primeton.euler.chidi.service.util.DbUtils;
 import com.primeton.euler.msf.api.MSFApi;
@@ -96,38 +99,43 @@ public class MarketProductApiImpl implements MarketProductApi {
 		// 创建数据库，初始化数据库
 		DbUtils.createMySQLDataBase(DbUtils.generateUrl(dbUrl, ""), userName, password, dbName);
 		ProductScript script = scriptDao.queryByProductId(productId);
-		String scriptContent = script.getScriptContent();
-		DbUtils.executeMySQLScript(DbUtils.generateUrl(dbUrl, dbName), userName, password, scriptContent);
+		String scriptFilePath = script.getScriptPath()+File.separator+script.getScriptName();
+		DbUtils.executeMySQLScript(DbUtils.generateUrl(dbUrl, dbName), userName, password, scriptFilePath);
 
 		// 自定义产品配置注入, db url, userName, password
-		ProductInstanceVO instance = productInstanceApi.queryProductInstanceById(tenantCode, productId);
-		List<ProductInstanceAttrVO> attrs = instance.getProductInstanceAttrs();
-		for (ProductInstanceAttrVO attr : attrs) {
-			if (attr.getAttrKey().equals("db.user")) {
-				attr.setAttrValue(userName);
+		CustomProductInstance customInstInfo = CustomProductInstance.getDefaultCustomProductInstance();
+		List<CompSpecVO> compSpecList = customInstInfo.getCompSpecs();
+		List<ProductInstanceAttrVO>  instanceAttrs = customInstInfo.getProductInstanceAttrs();
+		for (ProductInstanceAttrVO instanceAttr : instanceAttrs) {
+			if (instanceAttr.getAttrKey().equals("db.url")) {
+				instanceAttr.setAttrValue(dbUrl);
+				continue;
 			}
-			if (attr.getAttrKey().equals("db.password")) {
-				attr.setAttrValue(password);
+			if (instanceAttr.getAttrKey().equals("db.user")) {
+				instanceAttr.setAttrValue(userName);
+				continue;
 			}
-			if (attr.getAttrKey().equals("db.url")) {
-				attr.setAttrValue(dbUrl);
+			if (instanceAttr.getAttrKey().equals("db.password")) {
+				instanceAttr.setAttrValue(userName);
+				continue;
 			}
-			if (attr.getAttrKey().equals("home.title")) {
-				attr.setAttrValue("This is a demo...");
+			if (instanceAttr.getAttrKey().equals("home.title")) {
+				instanceAttr.setAttrValue("销售统计");
+				continue;
 			}
 		}
 		
 		// 部署自定义产品实例
-		ProductInstanceVO customProductInstance = createCustomProductInstance(instance, tenantCode);
+		ProductInstanceVO customProductInstance = createCustomProductInstance(customInstInfo, tenantCode);
 		
 		// 记录产品和数据库关联信息
-		CustomProductInstInfo info = new CustomProductInstInfo();
-		info.setInstcnceId(customProductInstance.getId());
+		CustomProductInstInfo createdInstanceInfo = new CustomProductInstInfo();
+		createdInstanceInfo.setInstcnceId(customProductInstance.getId());
 		Map<String, String> dependentInstInfo = new HashMap<String, String>();
 		dependentInstInfo.put("instanceId", mysqlInstance.getId());
 		dependentInstInfo.put("productCode", mysqlInstance.getProductCode());
-		info.setDependentInstanceInfo(JSON.toJSONString(dependentInstInfo));
-		instInfoDao.insert(info);
+		createdInstanceInfo.setDependentInstanceInfo(JSON.toJSONString(dependentInstInfo));
+		instInfoDao.insert(createdInstanceInfo);
 		logger.info(">>>> instanceId: " + customProductInstance.getId());
 		return customProductInstance.getId();
 	}

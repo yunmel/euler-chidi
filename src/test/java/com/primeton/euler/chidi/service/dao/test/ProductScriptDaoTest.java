@@ -10,6 +10,9 @@
 
 package com.primeton.euler.chidi.service.dao.test;
 
+import java.io.File;
+import java.sql.Connection;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,21 +44,29 @@ public class ProductScriptDaoTest {
 	@Test
 	public void testQueryById() {
 		ProductScript script = scriptDao.queryById("3ee5b782-f648-47a0-bcb5-7a42803bcc57");
-		System.out.println(">>>> query by script id: " + script.getScriptContent());
-		Assert.assertNotNull(script.getScriptContent());
+		System.out.println(">>>> query by script id: " + script.getScriptPath()+File.separator+script.getScriptName());
+		Assert.assertNotNull(script.getScriptPath());
+		Assert.assertNotNull(script.getScriptName());
 	}
 
 	@Test
 	public void testQueryByProductId() {
-		ProductScript script = scriptDao.queryByProductId("1ba4ee03-a09d-4b0e-9332-1d4b8f78071e");
-		System.out.println(">>>> query by product id: " + script.getScriptContent());
-		Assert.assertNotNull(script.getScriptContent());
+		ProductScript script = scriptDao.queryByProductId("969b087e-60ed-4d1d-a4bb-460069a3166a");
+		System.out.println(">>>> query by product id: " + script.getScriptPath()+File.separator+script.getScriptName());
+		Assert.assertNotNull(script.getScriptPath());
+		Assert.assertNotNull(script.getScriptName());
 	}
 
 	@Test
 	public void testQeuryScriptAndExecuteScript() {
 		ProductScript script = scriptDao.queryByProductId("1ba4ee03-a09d-4b0e-9332-1d4b8f78071e");
-		String url = DbUtils.generateUrl("10.15.15.100:30226", "custom_db");
-		DbUtils.executeMySQLScript(url, "root", "c_krit", script.getScriptContent());
+		String url = DbUtils.generateUrl("10.15.15.100:31475", "custom_db");
+		try {
+			Connection conn = DbUtils.getConnection(DbUtils.MYSQL_DRIVER, url, "root", "c_krit");
+			DbUtils.executeSqlScript(conn, new File(script.getScriptPath()+File.separator+script.getScriptName()));
+		} catch (Exception e) {
+			Assert.fail();
+			e.printStackTrace();
+		}
 	}
 }
