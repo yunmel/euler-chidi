@@ -108,7 +108,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 		List<ProductInstanceAttrVO>  instanceAttrs = customInstInfo.getProductInstanceAttrs();
 		for (ProductInstanceAttrVO instanceAttr : instanceAttrs) {
 			if (instanceAttr.getAttrKey().equals("db.url")) {
-				instanceAttr.setAttrValue(dbUrl);
+				instanceAttr.setAttrValue(DbUtils.generateUrl(dbUrl, dbName));
 				continue;
 			}
 			if (instanceAttr.getAttrKey().equals("db.user")) {

@@ -3,8 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <title>删除产品实例</title>
+<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
-	<p>删除产品实例</p>
+	<script>
+		var request = {
+			QueryString : function(val) {
+				var uri = window.location.search;
+				var re = new RegExp("" + val + "=([^&?]*)", "ig");
+				return ((uri.match(re)) ? (uri.match(re)[0].substr(val.length + 1)) : null);
+			}
+		}
+		var params = request.QueryString("params");
+		var paramArray = params.split(",");
+		var accessToken = paramArray[0];
+		var tenantCode = paramArray[1];
+		var productInstanceId = paramArray[2];
+		//alert(accessToken + " " + tenantCode + " " + standardProductId)
+		
+		$.ajax({
+			url : "/chidi/market/productInstances/"+productInstanceId,
+			type : "get",
+			beforeSend : function(request) {
+				request.setRequestHeader("x-cbc-accessToken", accessToken);
+				request.setRequestHeader("x-cbc-tenantCode", tenantCode);
+			},
+			success : function(text) {
+				//alert(productId + ", " + text);
+			},
+			error : function(xhr) {
+				document.getElementById("message").innerHTML = "删除产品失败"
+			}
+		});
+	</script>
+	<p id="message" style="text-align: center">正在删除产品实例，请稍后……</p>
 </body>
 </html>
