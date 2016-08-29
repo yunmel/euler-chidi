@@ -17,7 +17,7 @@ import com.primeton.euler.chidi.service.util.DbUtils;
 public class DevOpsDbInitialize {
 	
 	private static final String EULER_SCRIPT_PATH = DevOpsDbInitialize.class.getResource("/").getPath();
-	private static final String CHIDI_SCRIPT_PATH = "";
+//	private static final String CHIDI_SCRIPT_PATH = "";
 	
 	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/euler_chidi?autoReconnect=true&characterEncoding=UTF-8";
 	private static final String JDBC_USER = "root";
