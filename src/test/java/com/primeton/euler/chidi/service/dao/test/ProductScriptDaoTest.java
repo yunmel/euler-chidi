@@ -35,7 +35,7 @@ import com.primeton.euler.chidi.service.util.DbUtils;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
-@Rollback(false) // true 清空测试数据
+@Rollback(true) // true 清空测试数据
 @Transactional
 public class ProductScriptDaoTest {
 	@Autowired
@@ -57,7 +57,7 @@ public class ProductScriptDaoTest {
 		Assert.assertNotNull(script.getScriptName());
 	}
 
-	@Test
+//	@Test
 	public void testQeuryScriptAndExecuteScript() {
 		ProductScript script = scriptDao.queryByProductId("1ba4ee03-a09d-4b0e-9332-1d4b8f78071e");
 		String url = DbUtils.generateUrl("10.15.15.100:31475", "custom_db");
