@@ -24,15 +24,15 @@
 		var accessToken = paramArray[0];
 		var tenantCode = paramArray[1];
 		var productInstanceId = paramArray[2];
-		alert(accessToken + " " + tenantCode + " " + productInstanceId)
+		//alert(accessToken + " " + tenantCode + " " + productInstanceId)
 		if (!accessToken || !tenantCode || !productInstanceId) {
 			alert('参数不足！');
 			window.open('about:blank', '_self', '');
 			window.close();
 		}
-		
+
 		$.ajax({
-			url : "/chidi/market/productInstances/"+productInstanceId,
+			url : "/chidi/market/productInstances/" + productInstanceId,
 			type : "DELETE",
 			beforeSend : function(request) {
 				request.setRequestHeader("x-cbc-accessToken", accessToken);
