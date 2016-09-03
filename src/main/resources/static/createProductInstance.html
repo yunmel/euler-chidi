@@ -16,18 +16,25 @@
 			}
 		}
 		var params = request.QueryString("params");
-		//alert("params：" + params);
+		if (!params) {
+			alert('参数不足！');
+			window.open('about:blank', '_self', '');
+			window.close();
+		}
 		var paramArray = params.split(",");
-		
-
 		var accessToken = paramArray[0];
 		var tenantCode = paramArray[1];
-		var standardProductId = paramArray[2];
+		var productId = paramArray[2];
 		alert(accessToken + " " + tenantCode + " " + productId)
+		if (!accessToken || !tenantCode || !productId) {
+			alert('参数不足！');
+			window.open('about:blank', '_self', '');
+			window.close();
+		}
 
 		$.ajax({
 			url : "/chidi/market/productInstances",
-			type : "post",
+			type : "POST",
 			beforeSend : function(request) {
 				request.setRequestHeader("x-cbc-accessToken", accessToken);
 				request.setRequestHeader("x-cbc-tenantCode", tenantCode);
@@ -35,16 +42,21 @@
 			data : {
 				productId : productId,
 				tenantCode : tenantCode
-			}
+			},
 			success : function(text) {
-				//alert(productId + ", " + text);
+				console.log("message: " + text);
+				alert("已经开始开通产品，请在市场中查看……");
+				window.open('about:blank', '_self', '');
+				window.close();
 			},
 			error : function(xhr) {
-				document.getElementById("message").innerHTML = "创建产品失败"
+				alert("开通产品失败！");
+				window.open('about:blank', '_self', '');
+				window.close();
 			}
 		});
 	</script>
-	<p id="message" style="text-align:center">正在新建产品实例，请稍后……</p>
+	<p id="message" style="text-align:center"></p>
 
 </body>
 </html>

@@ -11,9 +11,12 @@
 package com.primeton.euler.chidi.service;
 
 import org.gocom.euler.specs.portal.capability.api.ProductInstanceApi;
+import org.jboss.resteasy.springmvc.ResteasyHandlerMapping;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.Ordered;
 
 import com.primeton.euler.msf.mock.MockServerSupport;
 
@@ -23,7 +26,9 @@ public class Application {
 
 	public static void main(String[] args) {
 		MockServerSupport.INSTANCE.register(ProductInstanceApi.class, "10.15.15.99:9006");
-		SpringApplication.run(Application.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+		ResteasyHandlerMapping resteasyHandlerMapping = context.getBean(ResteasyHandlerMapping.class);
+    	resteasyHandlerMapping.setOrder(Ordered.LOWEST_PRECEDENCE);
 		System.out.println("=============================================================================");
 		System.out.println("============================ euler-chidi startup ============================");
 		System.out.println("=============================================================================");

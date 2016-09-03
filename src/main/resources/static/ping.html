@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>调用接口测试</title>
+<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+</head>
+<body>
+	<script>
+		$.ajax({
+			url : "/chidi/ping",
+			type : "GET",
+			success : function(text) {
+				alert("message: " + text);
+				document.getElementById("message").innerHTML = "调用接口成功！"
+			},
+			error : function(xhr) {
+				document.getElementById("message").innerHTML = "调用接口失败！"
+			}
+		});
+	</script>
+	<p id="message" style="text-align:center">正在调用接口，请稍后……</p>
+
+</body>
+</html>

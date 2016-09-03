@@ -15,27 +15,41 @@
 			}
 		}
 		var params = request.QueryString("params");
+		if (!params) {
+			alert('参数不足！');
+			window.open('about:blank', '_self', '');
+			window.close();
+		}
 		var paramArray = params.split(",");
 		var accessToken = paramArray[0];
 		var tenantCode = paramArray[1];
 		var productInstanceId = paramArray[2];
-		//alert(accessToken + " " + tenantCode + " " + standardProductId)
+		alert(accessToken + " " + tenantCode + " " + productInstanceId)
+		if (!accessToken || !tenantCode || !productInstanceId) {
+			alert('参数不足！');
+			window.open('about:blank', '_self', '');
+			window.close();
+		}
 		
 		$.ajax({
 			url : "/chidi/market/productInstances/"+productInstanceId,
-			type : "get",
+			type : "DELETE",
 			beforeSend : function(request) {
 				request.setRequestHeader("x-cbc-accessToken", accessToken);
 				request.setRequestHeader("x-cbc-tenantCode", tenantCode);
 			},
 			success : function(text) {
-				//alert(productId + ", " + text);
+				alert("正在删除产品实例，请稍后……");
+				window.open('about:blank', '_self', '');
+				window.close();
 			},
 			error : function(xhr) {
-				document.getElementById("message").innerHTML = "删除产品失败"
+				alert("删除产品实例失败！");
+				window.open('about:blank', '_self', '');
+				window.close();
 			}
 		});
 	</script>
-	<p id="message" style="text-align: center">正在删除产品实例，请稍后……</p>
+	<p id="message" style="text-align: center"></p>
 </body>
 </html>

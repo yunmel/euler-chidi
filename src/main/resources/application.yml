@@ -1,5 +1,15 @@
 spring.profiles.include: msf
 
+spring:
+  resources: 
+    chain: 
+      strategy: 
+        content: 
+          enabled: true
+          paths: /chidi/**
+  mvc: 
+    staticPathPattern: /chidi/actions/**
+
 server:
     port: 8080
 
@@ -22,4 +32,4 @@ srd:
 token:
   validate:
     remote: false
-    excludeUrl: "/"
+    excludeUrl: ""
