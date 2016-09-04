@@ -89,7 +89,7 @@ INSERT INTO `demo_sales_item` (`id`, `create_by_id`, `create_date`, `status`, `u
 INSERT INTO `demo_sales_item` (`id`, `create_by_id`, `create_date`, `status`, `update_by_id`, `update_date`, `code`, `number`, `type`, `product_id`) VALUES (37, 1, '2016-02-23', 1, 1, '2016-02-23', 'item37', 100, 'purpose', 1);
 INSERT INTO `demo_sales_item` (`id`, `create_by_id`, `create_date`, `status`, `update_by_id`, `update_date`, `code`, `number`, `type`, `product_id`) VALUES (38, 1, '2016-02-23', 1, 1, '2016-02-23', 'item38', 100, 'complete', 1);
 INSERT INTO `demo_sales_item` (`id`, `create_by_id`, `create_date`, `status`, `update_by_id`, `update_date`, `code`, `number`, `type`, `product_id`) VALUES (39, 1, '2016-02-23', 1, 1, '2016-02-23', 'item39', 100, 'complete', 1);
-INSERT INTO `demo_sales_item` (`id`, `create_by_id`, `create_date`, `status`, `update_by_id`, `update_date`, `code`, `number`, `type`, `product_id`) VALUES (40, 1, '2016-02-23', 1, 1, '2016-02-23', 'item40', 100, 'complete', 1);
+INSERT INTO `demo_sales_item` (`id`, `create_by_id`, `create_date`, `status`, `update_by_id`, `update_date`, `code`, `number`, `type`, `product_id`) VALUES (40, 1, '2016-02-23', 1, 1, '2016-02-23', 'item40', 88888, 'complete', 1);
 
 -- json_template
 INSERT INTO `demo_json_template` (`id`, `create_by_id`, `create_date`, `status`, `update_by_id`, `update_date`, `template_key`, `template_value`) VALUES (1, 1, '2016-04-22', 1, 1, '2016-04-22', 'tendency', '{

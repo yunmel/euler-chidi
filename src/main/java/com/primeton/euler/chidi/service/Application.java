@@ -21,11 +21,11 @@ import org.springframework.core.Ordered;
 import com.primeton.euler.msf.mock.MockServerSupport;
 
 @SpringBootApplication
-@ComponentScan("com.primeton.euler.chidi")
+@ComponentScan("com.primeton.euler.chidi.service")
 public class Application {
 
 	public static void main(String[] args) {
-		MockServerSupport.INSTANCE.register(ProductInstanceApi.class, "10.15.15.99:9006");
+		MockServerSupport.INSTANCE.register(ProductInstanceApi.class, "10.217.4.30:31086");
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 		ResteasyHandlerMapping resteasyHandlerMapping = context.getBean(ResteasyHandlerMapping.class);
     	resteasyHandlerMapping.setOrder(Ordered.LOWEST_PRECEDENCE);

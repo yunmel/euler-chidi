@@ -34,6 +34,7 @@
 		$.ajax({
 			url : "/chidi/market/productInstances/" + productInstanceId,
 			type : "DELETE",
+			contentType: "application/json",
 			beforeSend : function(request) {
 				request.setRequestHeader("x-cbc-accessToken", accessToken);
 				request.setRequestHeader("x-cbc-tenantCode", tenantCode);

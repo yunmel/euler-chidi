@@ -19,7 +19,9 @@ import org.gocom.euler.specs.portal.model.ProductInstanceAttrVO;
 import org.gocom.euler.specs.portal.model.ProductInstanceVO;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSON;
 import com.primeton.euler.cbc.log.LoggerFactory;
@@ -91,15 +93,16 @@ public class MarketProductApiImpl implements MarketProductApi {
 
 		String userName = "root";
 		String password = MySQLProductInstance.getRootPassword();
-		String dbName = "custom_db";
+		String dbName = "test";
 		String publicUrl = mysqlResource.getNetUrl();
 		String dbUrl = mysqlResource.getPublicIp() + ":" + publicUrl.split(":")[1];
 		logger.info(">>>> userName: " + userName + ", password: " + password + ", dbName: " + dbName + ", dbUrl: " + dbUrl);
 
 		// 创建数据库，初始化数据库
-		DbUtils.createMySQLDataBase(DbUtils.generateUrl(dbUrl, ""), userName, password, dbName);
+//		DbUtils.createMySQLDataBase(DbUtils.generateUrl(dbUrl, ""), userName, password, dbName);
 		ProductScript script = scriptDao.queryByProductId(productId);
 		String scriptFilePath = script.getScriptPath()+File.separator+script.getScriptName();
+		logger.info(">>>> scriptFilePath: "+scriptFilePath);
 		DbUtils.executeMySQLScript(DbUtils.generateUrl(dbUrl, dbName), userName, password, scriptFilePath);
 
 		// 自定义产品配置注入, db url, userName, password
@@ -119,10 +122,10 @@ public class MarketProductApiImpl implements MarketProductApi {
 				instanceAttr.setAttrValue(userName);
 				continue;
 			}
-			if (instanceAttr.getAttrKey().equals("home.title")) {
-				instanceAttr.setAttrValue("销售统计");
-				continue;
-			}
+//			if (instanceAttr.getAttrKey().equals("home.title")) {
+//				instanceAttr.setAttrValue("销售统计");
+//				continue;
+//			}
 		}
 		
 		// 部署自定义产品实例

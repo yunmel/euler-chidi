@@ -35,12 +35,13 @@
 		$.ajax({
 			url : "/chidi/market/productInstances",
 			type : "POST",
+			contentType: "application/json",
 			beforeSend : function(request) {
 				request.setRequestHeader("x-cbc-accessToken", accessToken);
 				request.setRequestHeader("x-cbc-tenantCode", tenantCode);
 			},
 			data : {
-				productId : productId,
+				standardProductId : productId,
 				tenantCode : tenantCode
 			},
 			success : function(text) {
@@ -51,8 +52,8 @@
 			},
 			error : function(xhr) {
 				alert("开通产品失败！");
-				window.open('about:blank', '_self', '');
-				window.close();
+				//window.open('about:blank', '_self', '');
+				//window.close();
 			}
 		});
 	</script>

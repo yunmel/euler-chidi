@@ -15,7 +15,7 @@ import com.primeton.euler.chidi.service.api.PingApi;
  *
  */
 @Service
-@Scope(WebApplicationContext.SCOPE_REQUEST)
+//@Scope(WebApplicationContext.SCOPE_REQUEST)
 public class PingApiImpl implements PingApi {
 	
 	/* (non-Javadoc)
