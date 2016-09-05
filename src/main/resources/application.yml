@@ -1,4 +1,4 @@
-spring.profiles.include: msf
+##spring.profiles.include: msf
 
 spring:
   resources: 
@@ -6,7 +6,7 @@ spring:
       strategy: 
         content: 
           enabled: true
-          paths: /chidi/**
+          paths: /chidi/market/**
   mvc: 
     staticPathPattern: /chidi/actions/**
 
@@ -24,11 +24,12 @@ application:
     name: chidi
     
 srd:
-  group: euler_group
+  ##group: euler_group
   regProtocol: etcd
   addresses:
-  - 10.217.4.47:32379
-          
+    - 10.217.4.47:32379
+    ## - 10.15.15.99:2379  
+   
 token:
   validate:
     remote: false

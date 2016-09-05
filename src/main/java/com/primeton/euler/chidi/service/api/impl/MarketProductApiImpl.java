@@ -60,10 +60,10 @@ public class MarketProductApiImpl implements MarketProductApi {
 	private CustomProductInstInfoDao instInfoDao;
 
 	@Override
-	public String createProductInstance(ProductInstanceVO createInstance) throws CapabilityException {
-		String productId = createInstance.getStandardProductId();
-		String tenantCode = createInstance.getTenantCode();
-		logger.info(">>>> productId: " + productId + ", tenantCode: " + tenantCode);
+	public String createProductInstance(String standardProductId, String tenantCode) throws CapabilityException {
+//		String productId = createInstance.getStandardProductId();
+//		String tenantCode = createInstance.getTenantCode();
+		logger.info(">>>> productId: " + standardProductId + ", tenantCode: " + tenantCode);
 		
 		// 部署数据库实例
 		MySQLProductInstance mysqInfo = MySQLProductInstance.getDefaultMySQLInstance(); // 默认从文件读取
@@ -100,7 +100,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 
 		// 创建数据库，初始化数据库
 //		DbUtils.createMySQLDataBase(DbUtils.generateUrl(dbUrl, ""), userName, password, dbName);
-		ProductScript script = scriptDao.queryByProductId(productId);
+		ProductScript script = scriptDao.queryByProductId(standardProductId);
 		String scriptFilePath = script.getScriptPath()+File.separator+script.getScriptName();
 		logger.info(">>>> scriptFilePath: "+scriptFilePath);
 		DbUtils.executeMySQLScript(DbUtils.generateUrl(dbUrl, dbName), userName, password, scriptFilePath);

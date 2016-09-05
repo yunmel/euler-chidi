@@ -26,6 +26,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		MockServerSupport.INSTANCE.register(ProductInstanceApi.class, "10.217.4.30:31086");
+//		MockServerSupport.INSTANCE.register(ProductInstanceApi.class, "10.15.15.99:9006");
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 		ResteasyHandlerMapping resteasyHandlerMapping = context.getBean(ResteasyHandlerMapping.class);
     	resteasyHandlerMapping.setOrder(Ordered.LOWEST_PRECEDENCE);

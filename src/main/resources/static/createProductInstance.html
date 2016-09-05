@@ -24,26 +24,26 @@
 		var paramArray = params.split(",");
 		var accessToken = paramArray[0];
 		var tenantCode = paramArray[1];
-		var productId = paramArray[2];
+		var standardProductId = paramArray[2];
 		//alert(accessToken + " " + tenantCode + " " + productId)
-		if (!accessToken || !tenantCode || !productId) {
+		if (!accessToken || !tenantCode || !standardProductId) {
 			alert('参数不足！');
 			window.open('about:blank', '_self', '');
 			window.close();
 		}
 
 		$.ajax({
-			url : "/chidi/market/productInstances",
-			type : "POST",
+			url : "/chidi/market/productInstances?standardProductId="+standardProductId+"&tenantCode="+tenantCode,
+			type : "GET",
 			contentType: "application/json",
 			beforeSend : function(request) {
 				request.setRequestHeader("x-cbc-accessToken", accessToken);
 				request.setRequestHeader("x-cbc-tenantCode", tenantCode);
 			},
-			data : {
-				standardProductId : productId,
-				tenantCode : tenantCode
-			},
+			//data : {
+			//	standardProductId : productId,
+			//	tenantCode : tenantCode
+			//},
 			success : function(text) {
 				console.log("message: " + text);
 				alert("已经开始开通产品，请在市场中查看……");
