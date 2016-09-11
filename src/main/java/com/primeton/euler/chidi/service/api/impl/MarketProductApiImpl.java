@@ -81,6 +81,10 @@ public class MarketProductApiImpl implements MarketProductApi {
 				logger.info(">>>> mysql instance [" + mysqlInstance.getId() + "] is running");
 				break;
 			}
+			if (createdMysqlInstance.getStatusId().equals("2")) {
+				logger.info(">>>> mysql instance [" + mysqlInstance.getId() + "] is error");
+				break;
+			}
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
@@ -130,6 +134,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 		
 		// 部署自定义产品实例
 		ProductInstanceVO customProductInstance = createCustomProductInstance(customInstInfo, tenantCode);
+		logger.info(">>>> productInstanceId: " + customProductInstance.getId() + ", standardProductId:" + customProductInstance.getStandardProductId());
 		
 		// 记录产品和数据库关联信息
 		CustomProductInstInfo createdInstanceInfo = new CustomProductInstInfo();
@@ -138,8 +143,8 @@ public class MarketProductApiImpl implements MarketProductApi {
 		dependentInstInfo.put("instanceId", mysqlInstance.getId());
 		dependentInstInfo.put("productCode", mysqlInstance.getProductCode());
 		createdInstanceInfo.setDependentInstanceInfo(JSON.toJSONString(dependentInstInfo));
+		logger.info(">>>> dependentInstInfo: " + JSON.toJSONString(dependentInstInfo));
 		instInfoDao.insert(createdInstanceInfo);
-		logger.info(">>>> instanceId: " + customProductInstance.getId());
 		return customProductInstance.getId();
 	}
 
@@ -152,8 +157,12 @@ public class MarketProductApiImpl implements MarketProductApi {
 			JSON.parseObject(dependInfo, Map.class);
 			dependInstId = (String) JSON.parseObject(dependInfo, Map.class).get(instanceId);
 		}
+		logger.info(">>>> delete product instance: " + dependInstId);
 		productInstanceApi.deleteProductInstanceById(tenantCode, instanceId);
-		productInstanceApi.deleteProductInstanceById(tenantCode, dependInstId);
+		if (!StringUtils.isBlank(dependInstId)) {
+			logger.info(">>>> delete dependent product instance: " + dependInstId);
+			productInstanceApi.deleteProductInstanceById(tenantCode, dependInstId);
+		}
 	}
 
 	@Override
@@ -178,6 +187,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 	private ProductInstanceVO createCustomProductInstance(ProductInstanceVO instance, String tenantCode) {
 		ProductInstanceVO customInstance = null;
 		try {
+			instance.setTenantCode(tenantCode);
 			customInstance = productInstanceApi.createProductInstance(instance, tenantCode);
 			return customInstance;
 		} catch (PortalCapabilityException e) {

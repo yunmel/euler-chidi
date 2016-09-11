@@ -16,6 +16,7 @@ server:
 jdbc:    
     driver: "com.mysql.jdbc.Driver"
     url: "jdbc:mysql://10.217.4.32:33306/euler_chidi?autoReconnect=true&characterEncoding=UTF-8"
+    ##url: "jdbc:mysql://10.15.15.99:3306/euler_chidi?autoReconnect=true&characterEncoding=UTF-8"
     user: "root"
     password: "root"
     maxPoolSize: 20
@@ -28,7 +29,7 @@ srd:
   regProtocol: etcd
   addresses:
     - 10.217.4.47:32379
-    ## - 10.15.15.99:2379  
+    ## - 10.15.15.99:2379
    
 token:
   validate:

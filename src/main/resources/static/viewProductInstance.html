@@ -5,6 +5,43 @@
 <title>查看产品实例信息</title>
 </head>
 <body>
+	<script>
+		var request = {
+			QueryString : function(val) {
+				var uri = window.location.search;
+				var re = new RegExp("" + val + "=([^&?]*)", "ig");
+				return ((uri.match(re)) ? (uri.match(re)[0].substr(val.length + 1)) : null);
+			}
+		}
+		var params = request.QueryString("params");
+		if (!params) {
+			alert('参数不足！');
+			window.open('about:blank', '_self', '');
+			window.close();
+		}
+		var paramArray = params.split(",");
+		var accessToken = paramArray[0];
+		var tenantCode = paramArray[1];
+		var productInstanceId = paramArray[2];
+		
+		$.ajax({
+			url : "/chidi/market/productInstances/" + productInstanceId,
+			type : "GET",
+			contentType: "application/json",
+			beforeSend : function(request) {
+				request.setRequestHeader("x-cbc-accessToken", accessToken);
+				request.setRequestHeader("x-cbc-tenantCode", tenantCode);
+			},
+			success : function(text) {
+				console.log(text);
+			},
+			error : function(xhr) {
+				alert("查询产品实例失败！");
+				window.open('about:blank', '_self', '');
+				window.close();
+			}
+		});
+	</script>
 	<p>查看产品实例信息</p>
 </body>
 </html>
