@@ -1,0 +1,84 @@
+{
+  "compSpecs": [
+    {
+      "buildNumber": 1000,
+      "componentCode": "c-springboot",
+      "componentVersion": "0.0.1",
+      "orderNumber": 0,
+      "srmSpecCode": "k8s.euler.simple-web-8080",
+      "srmSpecName": "单机"
+    }
+  ],
+  "envCode": "euler-market",
+  "offerId": "1",
+  "productCode": "custom",
+  "productInstanceAttrs": [
+    {
+      "attrId": "74c92c8e-d2d1-41e5-95e8-78653e5253bf",
+      "attrKey": "db.user",
+      "attrValue": "root",
+      "componentCode": "c-springboot",
+      "componentVersion": "0.0.1",
+      "source": "2",
+      "srmSpecCode": "k8s.euler.simple-web-8080",
+      "srmSpecName": "单机"
+    },
+    {
+      "attrId": "8d74d997-544f-4e62-945a-5e8c1c6548fe",
+      "attrKey": "cpu-limit",
+      "attrValue": "500",
+      "componentCode": "c-springboot",
+      "componentVersion": "0.0.1",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.simple-web-8080",
+      "srmSpecName": "单机"
+    },
+    {
+      "attrId": "97a800c9-bc0a-4d16-a223-eb77cec7139a",
+      "attrKey": "db.url",
+      "attrValue": "jdbc:mysql://10.15.15.100:32726/test?autoReconnect=true&characterEncoding=UTF-8",
+      "componentCode": "c-springboot",
+      "componentVersion": "0.0.1",
+      "source": "2",
+      "srmSpecCode": "k8s.euler.simple-web-8080",
+      "srmSpecName": "单机"
+    },
+    {
+      "attrId": "c2a8b5a1-04dc-4611-b565-97718628ea8d",
+      "attrKey": "db.password",
+      "attrValue": "c_krit",
+      "componentCode": "c-springboot",
+      "componentVersion": "0.0.1",
+      "source": "2",
+      "srmSpecCode": "k8s.euler.simple-web-8080",
+      "srmSpecName": "单机"
+    },
+    {
+      "attrId": "fb77c688-0234-4f9c-a64e-d73c5fe7574d",
+      "attrKey": "image-pull-policy",
+      "attrValue": "Always",
+      "componentCode": "c-springboot",
+      "componentVersion": "0.0.1",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.simple-web-8080",
+      "srmSpecName": "单机"
+    },
+    {
+      "attrId": "fc0dca30-c351-4ba4-b3ef-75dd0522969b",
+      "attrKey": "cpu-request",
+      "attrValue": "250",
+      "componentCode": "c-springboot",
+      "componentVersion": "0.0.1",
+      "source": "1",
+      "srmSpecCode": "k8s.euler.simple-web-8080",
+      "srmSpecName": "单机"
+    }
+  ],
+  "productSpecId": "06062722-2797-4ae8-868b-e77c286efd52",
+  "productVersion": "0.1.0",
+  "providerCode": "tenant-tianxh",
+  "spmVersion": "0.1.0",
+  "standardProductId": "a7a4c2ac-401c-4e33-aba6-2496b48564fa",
+  "tenantCode": "tenant-tianxh",
+  "usedCount": 0
+}
