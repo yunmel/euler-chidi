@@ -32,7 +32,7 @@
 		}
 
 		$.ajax({
-			url : "/chidi/market/productInstances/" + productInstanceId,
+			url : "/chidi/market/productInstances/"+productInstanceId+"?tenantCode="+tenantCode,
 			type : "DELETE",
 			contentType: "application/json",
 			beforeSend : function(request) {

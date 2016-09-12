@@ -25,7 +25,7 @@
 		var productInstanceId = paramArray[2];
 		
 		$.ajax({
-			url : "/chidi/market/productInstances/" + productInstanceId,
+			url : "/chidi/market/productInstances/"+productInstanceId+"?tenantCode="+tenantCode,
 			type : "GET",
 			contentType: "application/json",
 			beforeSend : function(request) {

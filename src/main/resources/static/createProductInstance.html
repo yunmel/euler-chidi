@@ -51,9 +51,14 @@
 				window.close();
 			},
 			error : function(xhr) {
-				alert("开通产品失败！");
-				//window.open('about:blank', '_self', '');
-				//window.close();
+				console.log(xhr);
+				if(xhr.status != 200) {
+					alert("开通产品失败！");
+					//window.open('about:blank', '_self', '');
+					//window.close();
+				} else {
+					alert("开通产品成功！");
+				}
 			}
 		});
 	</script>

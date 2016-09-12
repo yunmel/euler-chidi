@@ -13,15 +13,13 @@ import org.apache.commons.lang.StringUtils;
 import org.gocom.euler.specs.portal.capability.api.ProductInstanceApi;
 import org.gocom.euler.specs.portal.capability.api.StandardProductApi;
 import org.gocom.euler.specs.portal.exception.PortalCapabilityException;
-import org.gocom.euler.specs.portal.model.CompSpecVO;
 import org.gocom.euler.specs.portal.model.InstanceResourceVO;
 import org.gocom.euler.specs.portal.model.ProductInstanceAttrVO;
 import org.gocom.euler.specs.portal.model.ProductInstanceVO;
+import org.gocom.euler.specs.portal.model.StandardProductVO;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSON;
 import com.primeton.euler.cbc.log.LoggerFactory;
@@ -33,6 +31,7 @@ import com.primeton.euler.chidi.service.model.ProductScript;
 import com.primeton.euler.chidi.service.model.preset.CustomProductInstance;
 import com.primeton.euler.chidi.service.model.preset.MySQLProductInstance;
 import com.primeton.euler.chidi.service.util.DbUtils;
+import com.primeton.euler.chidi.service.util.ProductInstanceUtils;
 import com.primeton.euler.msf.api.MSFApi;
 import com.primeton.euler.specs.devops.exception.CapabilityException;
 
@@ -111,7 +110,6 @@ public class MarketProductApiImpl implements MarketProductApi {
 
 		// 自定义产品配置注入, db url, userName, password
 		CustomProductInstance customInstInfo = CustomProductInstance.getDefaultCustomProductInstance();
-		List<CompSpecVO> compSpecList = customInstInfo.getCompSpecs();
 		List<ProductInstanceAttrVO>  instanceAttrs = customInstInfo.getProductInstanceAttrs();
 		for (ProductInstanceAttrVO instanceAttr : instanceAttrs) {
 			if (instanceAttr.getAttrKey().equals("db.url")) {
@@ -123,7 +121,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 				continue;
 			}
 			if (instanceAttr.getAttrKey().equals("db.password")) {
-				instanceAttr.setAttrValue(userName);
+				instanceAttr.setAttrValue(password);
 				continue;
 			}
 //			if (instanceAttr.getAttrKey().equals("home.title")) {
@@ -135,6 +133,13 @@ public class MarketProductApiImpl implements MarketProductApi {
 		// 部署自定义产品实例
 		ProductInstanceVO customProductInstance = createCustomProductInstance(customInstInfo, tenantCode);
 		logger.info(">>>> productInstanceId: " + customProductInstance.getId() + ", standardProductId:" + customProductInstance.getStandardProductId());
+		
+		StandardProductVO standardProduct = standardProductApi.queryStdProductById(standardProductId);
+		String productDestroyUrl = standardProduct.getProductDestroyUrl();
+		String productDetailUrl = standardProduct.getProductDetailUrl();
+		
+		// 更新自定义产品实例的销毁url和详情url
+		ProductInstanceUtils.updateProductInstanceUrls(customProductInstance.getId(), productDestroyUrl, productDetailUrl);
 		
 		// 记录产品和数据库关联信息
 		CustomProductInstInfo createdInstanceInfo = new CustomProductInstInfo();
@@ -152,10 +157,10 @@ public class MarketProductApiImpl implements MarketProductApi {
 	public void destroyProductInstance(String instanceId, String tenantCode) throws CapabilityException {
 		CustomProductInstInfo instInfo = instInfoDao.queryById(instanceId);
 		String dependInfo = instInfo.getDependentInstanceInfo();
-		String dependInstId = ""; 
+		String dependInstId = "";
 		if (!StringUtils.isBlank(dependInfo)) {
 			JSON.parseObject(dependInfo, Map.class);
-			dependInstId = (String) JSON.parseObject(dependInfo, Map.class).get(instanceId);
+			dependInstId = (String) JSON.parseObject(dependInfo, Map.class).get("instanceId");
 		}
 		logger.info(">>>> delete product instance: " + dependInstId);
 		productInstanceApi.deleteProductInstanceById(tenantCode, instanceId);

@@ -11,6 +11,7 @@
 package com.primeton.euler.chidi.service;
 
 import org.gocom.euler.specs.portal.capability.api.ProductInstanceApi;
+import org.gocom.euler.specs.portal.capability.api.StandardProductApi;
 import org.jboss.resteasy.springmvc.ResteasyHandlerMapping;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +27,9 @@ public class Application {
 
 	public static void main(String[] args) {
 		MockServerSupport.INSTANCE.register(ProductInstanceApi.class, "10.217.4.30:31086");
+		MockServerSupport.INSTANCE.register(StandardProductApi.class, "10.217.4.30:31086");
 //		MockServerSupport.INSTANCE.register(ProductInstanceApi.class, "10.15.15.99:9006");
+//		MockServerSupport.INSTANCE.register(StandardProductApi.class, "10.15.15.99:9006");
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 		ResteasyHandlerMapping resteasyHandlerMapping = context.getBean(ResteasyHandlerMapping.class);
     	resteasyHandlerMapping.setOrder(Ordered.LOWEST_PRECEDENCE);
