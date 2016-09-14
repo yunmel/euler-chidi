@@ -162,7 +162,7 @@ public class MarketProductApiImpl implements MarketProductApi {
 			JSON.parseObject(dependInfo, Map.class);
 			dependInstId = (String) JSON.parseObject(dependInfo, Map.class).get("instanceId");
 		}
-		logger.info(">>>> delete product instance: " + dependInstId);
+		logger.info(">>>> delete product instance: " + instanceId);
 		productInstanceApi.deleteProductInstanceById(tenantCode, instanceId);
 		if (!StringUtils.isBlank(dependInstId)) {
 			logger.info(">>>> delete dependent product instance: " + dependInstId);
