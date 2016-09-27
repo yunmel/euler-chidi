@@ -3,4 +3,4 @@
 
 # Others
   
-(https://github.com/Primeton-Euler/Euler-Chidi)[https://github.com/Primeton-Euler/Euler-Chidi] already moved to (https://github.com/Primeton-External/euler-chidi/master/installer)[https://github.com/Primeton-External/euler-chidi/master/installer]
+Github Repository [https://github.com/Primeton-Euler/Euler-Chidi](https://github.com/Primeton-Euler/Euler-Chidi) already moved to [https://github.com/Primeton-External/euler-chidi/tree/master/installer](https://github.com/Primeton-External/euler-chidi/tree/master/installer)
