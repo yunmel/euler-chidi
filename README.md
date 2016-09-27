@@ -1,5 +1,6 @@
-#euler-chidi
+# Euler-Chidi
 成勘院云PaaS平台定制
 
-#拷贝脚本
-执行copy.cmd或copy.sh（暂缺），将脚本拷贝到db_script目录下。
+# Others
+  
+(https://github.com/Primeton-Euler/Euler-Chidi)[https://github.com/Primeton-Euler/Euler-Chidi] already moved to (https://github.com/Primeton-External/euler-chidi/master/installer)[https://github.com/Primeton-External/euler-chidi/master/installer]
