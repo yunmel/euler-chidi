@@ -1,0 +1,22 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  annotations: {}
+  labels:
+    product: "euler-ci"
+  name: "euler-ci"
+  namespace: "euler-system"
+spec:
+  deprecatedPublicIPs: []
+  externalIPs: []
+# Modify ${clusterIP} by your environment
+  clusterIP: 211.111.100.81
+  ports:
+  - port: 8080
+# Modify ${nodePort} by your environment
+    nodePort: 31081
+    targetPort: 8080
+  selector:
+    product: "euler-ci"
+  type: "NodePort"

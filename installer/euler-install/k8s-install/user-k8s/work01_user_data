@@ -1,0 +1,121 @@
+#cloud-config
+write_files:
+  - path: "/etc/hosts"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      127.0.0.1      localhost
+      10.217.4.33    u-k8s-master-01
+      10.217.4.34    u-k8s-work-01
+      10.217.4.35    u-k8s-work-02
+      10.217.4.48    u-k8s-work-03
+      10.217.4.46    euler-registry.primeton.com
+
+hostname: u-k8s-work-01
+
+coreos:
+  etcd2:
+    name: "%H"
+    heartbeat-interval: 1000
+    election-timeout: 5000
+    listen-client-urls: http://0.0.0.0:2379
+    proxy: on
+    initial-cluster: u-k8s-master-01=http://10.217.4.33:2380
+    initial-cluster-state: existing
+  units:
+  - name: update-engine.service
+    command: stop
+  - name: locksmithd.service
+    command: stop
+  - name: etcd2.service
+    command: start
+  - name: fleet.service
+    command: start
+  - name: early-docker.service
+    drop-ins:
+      - name: "10-opts.conf"
+        content: |
+          [Service]
+          Environment="DOCKER_OPTS=--insecure-registry euler-registry.primeton.com"
+  - name: early-docker.service
+    command: start
+  - name: flanneld.service
+    drop-ins:
+      - name: "10-opts.conf"
+        content: |
+          [Service]
+          Environment="FLANNEL_VER=0.5.5"
+          Environment="FLANNEL_IMG=euler-registry.primeton.com/coreos/flannel"
+  - name: flanneld.service
+    command: start
+  - name: docker.service
+    drop-ins:
+      - name: "10-opts.conf"
+        content: |
+          [Service]
+          Environment="DOCKER_OPTS=--insecure-registry euler-registry.primeton.com --log-driver=journald"
+  - name: docker.service
+    command: start
+  - name: timezone.service
+    command: start
+    content: |
+      [Unit]
+      Description=timezone
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      ExecStart=/usr/bin/ln -sf ../usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+  - name: 10-static.network
+    runtime: false
+    content: |
+      [Match]
+      Name=eth0
+
+      [Network]
+      Address=10.217.4.34/24
+      Gateway=10.217.4.254
+      DNS=223.6.6.6
+  - name: kube-kubelet.service
+    command: start
+    content: |
+      [Unit]
+      Description=Kubernetes Kubelet
+      Documentation=https://github.com/kubernetes/kubernetes
+
+      [Service]
+      ExecStart=/opt/bin/kubelet \
+      --address=0.0.0.0 \
+      --port=10250 \
+      --api-servers=http://u-k8s-master-01:8080 \
+      --pod-infra-container-image=euler-registry.primeton.com/kubernetes/pause:latest \
+      --logtostderr=true \
+      --cadvisor-port=4194 \
+      --healthz-bind-address=0.0.0.0 \
+      --healthz-port=10248 \
+      --max-pods=60 \
+      --cluster_dns=80.100.37.1 \
+      --cluster_domain=cluster-u.local \
+      --v=0 \
+      --allow-privileged=true
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target
+  - name: kube-proxy.service
+    command: start
+    content: |
+      [Unit]
+      Description=Kubernetes Proxy
+      Documentation=https://github.com/kubernetes/kubernetes
+
+      [Service]
+      ExecStart=/opt/bin/kube-proxy  \
+      --master=http://u-k8s-master-01:8080 \
+      --logtostderr=true \
+      --v=0
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target

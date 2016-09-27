@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sem-redis-master-dp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: sem-redis-master
+  template:
+    metadata:
+      labels:
+        name: sem-redis-master
+    spec:
+      containers:
+        - name: sem-redis-web-console-c
+          image: euler-registry.primeton.com/sem-redis-web-console:0.2.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+        - name: sem-redis-master-c
+          image: euler-registry.primeton.com/sem-redis:0.2.0
+          imagePullPolicy: Always
+          env:
+            - name: MASTER
+              value: "true"
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              cpu: "1024m"
+              memory: "2Gi"
+          volumeMounts:
+            - mountPath: /data
+              name: data-volume
+            - mountPath: /app/configmap
+              name: app-configmap
+      volumes:
+        - name: data-volume
+          hostPath: 
+            path: /mnt/euler_storage/pod_data_volume/euler/sem-redis-master
+        - name: app-configmap
+          configMap:
+            name: sem-redis-configmap
+            items:
+              - key: redis.conf
+                path: redis.conf
+              - key: run.sh
+                path: run.sh
+
+

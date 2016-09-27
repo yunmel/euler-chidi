@@ -1,0 +1,33 @@
+server:
+    port: 8080
+
+jdbc:    
+    driver: "com.mysql.jdbc.Driver"
+    url: "jdbc:mysql://211.111.100.36:3306/euler?autoReconnect=true&characterEncoding=UTF-8"
+    user: "euler"
+    password: "euler"
+    maxPoolSize: 20
+    
+application:
+  name: sem
+
+sem:
+  deployEnvType: default
+  
+# application server ip port
+service:
+  registries:
+   - name: iam
+     domain: "211.111.100.82:8080"
+
+token:
+  validate:
+    remote: true
+    excludeUrl: "/sem/excludes/,/sem/envs,/sem/clusters"
+    
+spring.profiles.include: msf
+srd:
+  group: euler_group
+  regProtocol: etcd
+  addresses:
+    - 10.217.4.47:32379

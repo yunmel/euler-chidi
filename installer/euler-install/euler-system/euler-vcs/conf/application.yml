@@ -1,0 +1,39 @@
+spring.profiles.include: msf
+server:
+    port: 8080
+
+db:    
+    driverClass: "com.mysql.jdbc.Driver"
+    user: "euler"
+    password: "euler"
+    jdbcUrl: "jdbc:mysql://211.111.100.36:3306/euler?autoReconnect=true&characterEncoding=UTF-8"
+    maxPoolSize: 20
+
+gitlab:
+    url: http://10.217.4.32/
+    apiToken: oJLYZArRbxHFR4yVwuDc
+
+application:
+    name: vcs
+    algorithm: AES
+    secretKey: "jcUxQSE8_cGY7hV73C2PeQ=="
+
+# application server ip port
+service:
+  registries:
+   - name: iam
+     domain: "211.111.100.82:8080"
+
+srd:
+  group: euler_group
+  regProtocol: etcd
+  address: 10.217.4.47:32379
+
+token:
+  validate:
+    remote: true
+    excludeUrl: "/vcs/users/operate,/vcs/users/register,/vcs/users/changePwd"
+
+thread:
+  corePoolSize: 10
+  maxPoolSize: 20

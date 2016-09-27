@@ -1,0 +1,28 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  annotations: {}
+  labels:
+    product: "etcd0"
+  name: "etcd0"
+  namespace: "euler-system"
+spec:
+  deprecatedPublicIPs: []
+  externalIPs: []
+# modify ${clusterIP} by your environment
+  clusterIP: 211.111.98.19
+  ports:
+  - name: port1
+    port: 2379
+# modify ${nodePort} by your environment
+    nodePort: 32379
+    targetPort: 2379
+  - name: port2
+    port: 2380
+# modify ${nodePort} by your environment
+    nodePort: 32380
+    targetPort: 2380
+  selector:
+    product: "etcd0"
+  type: "NodePort"

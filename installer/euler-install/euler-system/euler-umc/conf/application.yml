@@ -1,0 +1,62 @@
+# Allow Thymeleaf templates to be reloaded at dev time
+spring:
+  resources: 
+    chain: 
+      strategy: 
+        content: 
+          enabled: true
+          paths: /**
+  mvc: 
+    staticPathPattern: /umc/dashboard/**
+#  profiles: 
+#    include: extend
+    
+server:
+    port: 8080
+
+euler:
+    namespace: ${euler.namespace}
+    
+application:
+    name: umc
+    es: 
+      address: 10.217.4.44:9200
+      index: euler
+      type: products
+    influxdb:
+      address: 10.217.4.44
+      port: 8086
+      user: root
+      password: root
+      database: k8s
+    warning:
+      informInterval: 5
+      informMode: email,sms
+      cpuTimeLimit: 2
+      cpuUseLimit: 85
+      memoryTimeLimit: 2
+      memoryUseLimit: 85
+      email:
+        toEmails: tianxh@primeton.com,lizw@primeton.com
+      sms:
+        targetUrl: https://api.dingdongcloud.com/v1/sms/sendtz
+        apikey: a89e8cfb84107121aae92e782cca48da
+        sendTo: 15618332941
+        charset: utf-8
+
+srd:
+  group: euler_group
+  regProtocol: etcd
+  address: 10.217.4.47:32379
+
+# application server ip port
+service:
+  registries:
+   - name: iam
+     domain: "211.111.100.82:8080"
+
+token:
+  validate:
+    remote: false
+    excludeUrl: ""
+    

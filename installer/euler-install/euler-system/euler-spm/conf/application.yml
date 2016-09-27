@@ -1,0 +1,33 @@
+spring.profiles.include: msf
+server:
+    port: 8080
+
+db:
+    driverClass: "com.mysql.jdbc.Driver"
+    user: "euler"
+    password: "euler"
+    jdbcUrl: "jdbc:mysql://211.111.100.36:3306/euler?autoReconnect=true&characterEncoding=UTF-8"
+    maxPoolSize: 20
+
+application:
+  name: spm
+  productVersion:
+    versionNumBeyond: 3
+
+# application server ip port
+service:
+  registries:
+   - name: iam
+     domain: "211.111.100.82:8080"
+
+srd:
+  group: euler_group
+  regProtocol: etcd
+  addresses:
+    - 10.217.4.47:32379
+ 
+token:
+  validate:
+    remote: true
+    excludeUrl: "/spm/productVersions/productVersionNum"
+

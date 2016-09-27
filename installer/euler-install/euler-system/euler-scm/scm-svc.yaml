@@ -1,0 +1,22 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  annotations: {}
+  labels:
+    product: "euler-scm"
+  name: "euler-scm"
+  namespace: "euler-system"
+spec:
+  deprecatedPublicIPs: []
+  externalIPs: []
+# Modify ${clusterIP} by your environment
+  clusterIP: 211.111.100.87
+  ports:
+  - port: 8080
+# Modify ${nodePort} by your environment
+    nodePort: 31087
+    targetPort: 8080
+  selector:
+    product: "euler-scm"
+  type: "NodePort"

@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: sem-openresty-ds
+spec:
+  template:
+    metadata:
+      labels:
+        name: sem-openresty
+    spec:
+      containers:
+        - name: sem-openresty-container
+          image: euler-registry.primeton.com/sem-openresty:0.2.0
+          imagePullPolicy: Always
+          env:
+            - name: REDIS_HOST
+              value: sem-redis-slave
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - containerPort: 80
+              hostPort: 80
+          resources:
+            limits:
+              cpu: "1024m"
+              memory: "2Gi"
+          volumeMounts:
+            - mountPath: /app/configmap
+              name: app-configmap
+      volumes:
+        - name: app-configmap
+          configMap:
+            name: sem-openresty-configmap
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+              - key: run.sh
+                path: run.sh
+              
+

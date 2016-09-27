@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <group name="default">
+        <property name="username" defaultValue="root" description="" />
+        <property name="password" defaultValue="root" description="" />
+        <property name="host" defaultValue="127.0.0.1" description="" />
+        <property name="port" defaultValue="3306" description="" />
+        <property name="database" defaultValue="test" description="" />
+    </group>
+    <script>
+        <generate template="datasourceCtp.properties" destfile="docker/datasourceCtp.properties" />
+    </script>
+</config>

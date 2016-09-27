@@ -1,0 +1,38 @@
+spring.profiles.include: msf
+
+server:
+  port: 8080
+
+application:
+  name: bpr
+
+# application server ip port
+service:
+  registries:
+   - name: iam
+     domain: "211.111.100.82:8080"
+
+nexus:
+  domain: 10.217.4.32:8081
+  user: admin
+  password: admin123
+  enablessl: false
+
+http:
+  maxTotalSize: 10
+  validateAfterInactivity: 10000
+
+token:
+  validate:
+    remote: true
+    excludeUrl: "/"
+
+srd:
+  regProtocol: etcd
+  address: 10.217.4.47:32379
+  group: euler_group
+
+multipart:
+  enabled: true
+  maxFileSize: 128MB
+  maxRequestSize: 128MB

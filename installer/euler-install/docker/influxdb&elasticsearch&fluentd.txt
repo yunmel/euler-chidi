@@ -1,0 +1,11 @@
+docker run -d --restart always  -p 9200:9200 -p 9300:9300 --name elasticsearch \
+    -v /mnt/data/elasticsearch/logs:/usr/share/elasticsearch/logs \
+    -v /mnt/data/elasticsearch/data:/usr/share/elasticsearch/data \
+    euler-registry.primeton.com/elasticsearch:2.3.5
+
+docker run -d --restart always --name influxdb -p 8086:8086 -p 8083:8083 \
+     -v /mnt/data/influxdb:/var/lib/influxdb \
+    euler-registry.primeton.com/influxdb:0.13.0
+
+docker run -d -p 24224:24224 --name fluentd \
+    euler-registry.primeton.com/fluent/fluentd:latest

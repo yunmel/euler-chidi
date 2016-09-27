@@ -1,0 +1,30 @@
+spring.profiles.include: msf
+server:
+  port: 8080
+
+#application name
+application:
+  name: portal-server
+
+# application server ip port
+service:
+  registries:
+   - name: iam
+     domain: "211.111.100.82:8080"
+
+token:
+  validate:
+    remote: true
+    excludeUrl: "/portal/users/register, /portal/users/login, /portal/users/logout, /portal/users/exists, /portal/users/send/verifycode, /portal/users/password/email, /portal/inviteCodes/apply, /portal/total"
+    
+thread:
+  corePoolSize: 10
+  maxPoolSize: 20
+  
+srd:
+  group: euler_group
+  regProtocol: etcd
+  addresses:
+    - 10.217.4.47:32379
+
+reduceException: true

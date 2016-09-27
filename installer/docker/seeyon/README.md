@@ -1,0 +1,1 @@
+# Copy ApacheJetspeed and jdk directory to here

@@ -1,0 +1,51 @@
+---
+apiVersion: "v1"
+kind: "ReplicationController"
+# kind: "pod"
+metadata:
+  annotations: {}
+  labels:
+    product: "euler-bpr"
+  name: "euler-bpr"
+  namespace: "euler-system"
+spec:
+  replicas: 1
+  selector:
+    product: "euler-bpr"
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        product: "euler-bpr"
+    spec:
+      containers:
+      - args: []
+        image: "euler-registry.primeton.com/euler-bpr:0.2.0"
+        imagePullPolicy: Always
+        name: "euler-bpr"
+        ports:
+        - containerPort: 8080
+        env: []
+        resources:
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
+          requests:
+            cpu: "200m"
+            memory: "500m"
+        volumeMounts:
+        - mountPath: "/app/work"
+          name: "work-volume"
+        - mountPath: "/app/conf"
+          name: "conf-volume"
+      imagePullSecrets: []
+      nodeSelector: {}
+      volumes:
+      - hostPath:
+# modify ${path} by your environment
+          path: "/mnt/euler_storage/pod_data_volume/euler/euler-bpr/work"
+        name: "work-volume"
+# modify ${path} by your environment
+      - hostPath:
+          path: "/mnt/euler_storage/pod_data_volume/euler/euler-bpr/conf"
+        name: "conf-volume"

@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    k8s-app: heapster
+    name: heapster
+    version: v6
+  name: heapster
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    k8s-app: heapster
+    version: v6
+  template:
+    metadata:
+      labels:
+        k8s-app: heapster
+        version: v6
+    spec:
+      containers:
+      - name: heapster
+        image: euler-registry.primeton.com/kubernetes/heapster:canary
+        command:
+        - /heapster
+        - -metric_resolution=20s
+# modify here by your environment
+        - --source=kubernetes:http://10.217.4.28:8080
+        - --sink=influxdb:http://10.217.4.44:8086?db=theplatform
+        volumeMounts:
+        - mountPath: "/etc/localtime"
+          name: "localtime"
+          readOnly: true
+      volumes:
+      - hostPath:
+          path: "/etc/localtime"
+        name: "localtime"

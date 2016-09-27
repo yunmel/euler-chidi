@@ -1,0 +1,35 @@
+spring.profiles.include: msf
+
+server:
+    port: 8080
+
+jdbc:    
+    driver: "com.mysql.jdbc.Driver"
+    url: "jdbc:mysql://211.111.100.36:3306/euler?autoReconnect=true&characterEncoding=UTF-8"
+    user: "euler"
+    password: "euler"
+    maxPoolSize: 20
+    
+application:
+    name: iam
+    verifyCodeLength: 6
+    verifyCodeDuration: 30 
+    tokenDuration: 30
+    algorithm: AES
+    secretKey: "MzjygnUXwo1s_aMuSb_7kA=="
+
+srd:
+  regProtocol: etcd
+  addresses:
+    - 10.217.4.47:32379
+  group: euler_group
+
+service:
+    registries:
+        - name: iam
+          domain: 211.111.100.82:8080
+
+token:
+  validate:
+    remote: true
+    excludeUrl: "/iam/"

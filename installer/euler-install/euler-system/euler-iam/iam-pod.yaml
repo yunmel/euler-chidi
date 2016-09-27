@@ -1,0 +1,53 @@
+---
+apiVersion: "v1"
+kind: "ReplicationController"
+# kind: "pod"
+metadata:
+  annotations: {}
+  labels:
+    product: "euler-iam"
+  name: "euler-iam"
+  namespace: "euler-system"
+spec:
+  replicas: 1
+  selector:
+    product: "euler-iam"
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        product: "euler-iam"
+    spec:
+      containers:
+      - args: []
+        image: "euler-registry.primeton.com/euler-iam:0.2.0"
+        imagePullPolicy: Always
+        name: "euler-iam"
+        ports:
+        - containerPort: 8080
+        env:
+          - name: "JAVA_OPTS"
+            value: "-DPLATFORM_MAIL_CONFIG_FILE=/app/conf/smtp.properties -DPLATFORM_MAIL_TEMPLATE_DIR=/app/conf/template"
+        resources:
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
+          requests:
+            cpu: "200m"
+            memory: "500m"
+        volumeMounts:
+        - mountPath: "/app/work"
+          name: "work-volume"
+        - mountPath: "/app/conf"
+          name: "conf-volume"
+      imagePullSecrets: []
+      nodeSelector: {}
+      volumes:
+      - hostPath:
+# modify ${path} by your environment
+          path: "/mnt/euler_storage/pod_data_volume/euler/euler-iam/work"
+        name: "work-volume"
+# modify ${path} by your environment
+      - hostPath:
+          path: "/mnt/euler_storage/pod_data_volume/euler/euler-iam/conf"
+        name: "conf-volume"

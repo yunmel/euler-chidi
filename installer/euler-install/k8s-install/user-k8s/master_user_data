@@ -1,0 +1,168 @@
+#cloud-config
+write_files:
+  - path: "/etc/hosts"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      127.0.0.1      localhost
+      10.217.4.33    u-k8s-master-01
+      10.217.4.34    u-k8s-work-01
+      10.217.4.35    u-k8s-work-02
+      10.217.4.48    u-k8s-work-03
+      10.217.4.46    euler-registry.primeton.com
+
+hostname: u-k8s-master-01
+
+coreos:
+  etcd2:
+    name: "%H"
+    heartbeat-interval: 1000
+    election-timeout: 5000
+    advertise-client-urls: http://10.217.4.33:2379
+    initial-advertise-peer-urls: http://10.217.4.33:2380
+    listen-client-urls: http://0.0.0.0:2379
+    listen-peer-urls: http://0.0.0.0:2380
+    initial-cluster-token: euler-cluster
+    initial-cluster: u-k8s-master-01=http://10.217.4.33:2380
+    initial-cluster-state: new
+  units:
+  - name: update-engine.service
+    command: stop
+  - name: locksmithd.service
+    command: stop
+  - name: etcd2.service
+    command: start
+  - name: fleet.service
+    command: start
+  - name: early-docker.service
+    drop-ins:
+      - name: "10-opts.conf"
+        content: |
+          [Service]
+          Environment="DOCKER_OPTS=--insecure-registry euler-registry.primeton.com"
+  - name: flanneld.service
+    drop-ins:
+      - name: "10-opts.conf"
+        content: |
+          [Service]
+          Environment="FLANNEL_VER=0.5.5"
+          Environment="FLANNEL_IMG=euler-registry.primeton.com/coreos/flannel"
+  - name: flanneld.service
+    command: start
+  - name: docker.service
+    drop-ins:
+      - name: "10-opts.conf"
+        content: |
+          [Service]
+          Environment="DOCKER_OPTS=--insecure-registry euler-registry.primeton.com --log-driver=journald"
+  - name: docker.service
+    command: start
+  - name: early-docker.service
+    command: start
+  - name: timezone.service
+    command: start
+    content: |
+      [Unit]
+      Description=timezone
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      ExecStart=/usr/bin/ln -sf ../usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+  - name: 10-static.network
+    runtime: false
+    content: |
+      [Match]
+      Name=eth0
+
+      [Network]
+      Address=10.217.4.33/24
+      Gateway=10.217.4.254
+      DNS=223.6.6.6
+  - name: kube-apiserver.service
+    command: start
+    content: |
+      [Unit]
+      Description=Kubernetes API Server
+      Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+      Requires=etcd2.service
+      After=etcd2.service
+
+      [Service]
+      ExecStart=/opt/bin/kube-apiserver \
+      --service-account-key-file=/opt/bin/kube-serviceaccount.key \
+      --service-account-lookup=false \
+      --admission-control=NamespaceLifecycle,NamespaceAutoProvision,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota \
+      --runtime-config=api/v1,extensions/v1beta1=true,extensions/v1beta1/thirdpartyresources=true \
+      --allow-privileged=true \
+      --insecure-bind-address=0.0.0.0 \
+      --insecure-port=8080 \
+      --kubelet-https=true \
+      --secure-port=6443 \
+      --service-cluster-ip-range=211.111.0.0/16 \
+      --etcd-servers=http://127.0.0.1:2379 \
+      --bind-address=0.0.0.0 \
+      --logtostderr=true \
+      --cors-allowed-origins='.*' \
+      --service-node-port-range='30002-39998' \
+      --v=0
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target
+
+  - name: kube-controller-manager.service
+    command: start
+    content: |
+      [Unit]
+      Description=Kubernetes Controller Manager
+      Documentation=https://github.com/kubernetes/kubernetes
+      After=kube-apiserver.service
+      Requires=kube-apiserver.service
+
+      [Service]
+      ExecStart=/opt/bin/kube-controller-manager \
+      --service-account-private-key-file=/opt/bin/kube-serviceaccount.key \
+      --master=127.0.0.1:8080 \
+      --logtostderr=true \
+      --v=0
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target
+  - name: kube-scheduler.service
+    command: start
+    content: |
+      [Unit]
+      Description=Kubernetes Scheduler
+      Documentation=https://github.com/kubernetes/kubernetes
+      After=kube-apiserver.service
+      Requires=kube-apiserver.service
+
+      [Service]
+      ExecStart=/opt/bin/kube-scheduler \
+      --master=127.0.0.1:8080 \
+      --v=0
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target
+
+  - name: kube-dns.service
+    command: start
+    content: |
+      [Unit]
+      Description=Kubernetes dns
+      Documentation=https://github.com/kubernetes/kubernetes
+      [Service]
+      ExecStart=/opt/bin/kube-dns \
+      --kube-master-url=http://127.0.0.1:8080 \
+      --domain=cluster-u.local. \
+      --healthz-port=8081 \
+      --logtostderr=true
+      Restart=always
+      RestartSec=10
+      [Install]
+      WantedBy=multi-user.target

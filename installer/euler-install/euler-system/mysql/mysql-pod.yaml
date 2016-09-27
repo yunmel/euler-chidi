@@ -1,0 +1,63 @@
+---
+apiVersion: "v1"
+kind: "ReplicationController"
+# kind: "pod"
+metadata:
+  annotations: {}
+  labels:
+    product: "mysql"
+  name: "mysql"
+  namespace: "euler-system"
+spec:
+  replicas: 1
+  selector:
+    product: "mysql"
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        product: "mysql"
+    spec:
+      containers:
+      - args:
+          - "--character-set-server=utf8mb4"
+          - "--collation-server=utf8mb4_unicode_ci"
+        image: "euler-registry.primeton.com/mysql:5.7"
+        name: "mysql"
+        ports:
+        - containerPort: 3306
+        env:
+# Modify env (schema, root pass, new user and pass)
+          - name: "MYSQL_DATABASE"
+            value: "euler"
+          - name: "MYSQL_ROOT_PASSWORD"
+            value: "root"
+          - name: "MYSQL_USER"
+            value: "euler"
+          - name: "MYSQL_PASSWORD"
+            value: "euler"
+        securityContext:
+          privileged: true
+        resources:
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+        volumeMounts:
+        - mountPath: "/var/lib/mysql"
+          name: "data-volume"
+        - mountPath: "/etc/mysql/conf.d"
+          name: "conf-volume"
+      imagePullSecrets: []
+      nodeSelector: {}
+      volumes:
+      - hostPath:
+# modify ${path} by your environment
+          path: "/mnt/euler_storage/pod_data_volume/euler/mysql/data"
+        name: "data-volume"
+      - hostPath:
+# modify ${path} by your environment
+          path: "/mnt/euler_storage/pod_data_volume/euler/mysql/conf"
+        name: "conf-volume"

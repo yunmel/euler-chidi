@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sem-redis-slave-dp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: sem-redis-slave
+  template:
+    metadata:
+      labels:
+        name: sem-redis-slave
+    spec:
+      containers:
+        - name: sem-redis-slave-c
+          image: euler-registry.primeton.com/sem-redis:0.2.0
+          imagePullPolicy: Always
+          env:
+            - name: SLAVE
+              value: "true"
+            - name: SLAVE_OF_HOST
+              value: sem-redis-master
+            - name: SLAVE_OF_PORT
+              value: "6379"
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              cpu: "1024m"
+              memory: "2Gi"
+          volumeMounts:
+            - mountPath: /data
+              name: data-volume
+            - mountPath: /app/configmap
+              name: app-configmap
+      volumes:
+        - name: data-volume
+          emptyDir: {}
+        - name: app-configmap
+          configMap:
+            name: sem-redis-configmap
+            items:
+              - key: redis.conf
+                path: redis.conf
+              - key: run.sh
+                path: run.sh  
+
+
